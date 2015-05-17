@@ -8,7 +8,7 @@
 
 #import "InputViewController.h"
 #import "PickUpInfoViewController.h"
-#import "PickImageViewController.h"
+
 
 const CGFloat LabelX = 30.0f;
 const CGFloat LabelY = 325.0f;
@@ -83,8 +83,6 @@ static NSArray  * cancelButtonActionSheetItems = nil;
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.toolbarHidden = NO;
-    
-    self.addImageBackgroundView.image = self.imageRecievedAfterEdit;
     
     [super viewWillAppear:animated];
 }
@@ -401,7 +399,6 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(lineView1.frame.origin.x+lineView1.frame.size.width+serveButtonSize, _progressIndicator.frame.origin.y+serveButtonSize/2, 75, 1.0f)];
     lineView2.backgroundColor = [UIColor blackColor];
     
-    
     UIButton *step3Button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [step3Button setFrame:CGRectMake(lineView2.frame.origin.x+lineView2.frame.size.width,_progressIndicator.frame.origin.y,serveButtonSize, serveButtonSize)];
     [step3Button setTitle:@"3" forState:UIControlStateNormal];
@@ -488,15 +485,24 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     }
     
     self.pickImageViewController.imageRecievedFromPhotoStream = image;
+    
+    self.pickImageViewController.delegate = self ;
+    
     [self.navigationController pushViewController:self.pickImageViewController animated:YES];
+    
     
     
 //    self.addImageBackgroundView.image = image;
     [self dismissModalViewControllerAnimated:YES];
 }
 
-
-
+- (void)addItemViewController:(PickImageViewController *)controller didFinishEnteringItem:(UIImage *)imageRecieved
+{
+    //NSLog(@"This was returned from PickImageViewController %@",imageRecieved);
+    
+    self.addImageBackgroundView.image = imageRecieved;
+    
+}
 
 
 - (void)setUpActionSheets{
@@ -548,7 +554,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     }
     
     if ([buttonTitle isEqualToString:@"Choose Existing"]) {
-        
+    
         [self didTapButton:nil];
     }
     if ([buttonTitle isEqualToString:@"Other Button 2"]) {

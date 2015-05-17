@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InputViewController.h"
 
-@interface PickImageViewController : UIViewController<UINavigationControllerDelegate,
-UIImagePickerControllerDelegate>
+@class PickImageViewController;
+
+@protocol PickImageViewControllerDelegate <NSObject>
+
+- (void)addItemViewController:(PickImageViewController *)controller didFinishEnteringItem:(UIImage *)item;
+
+@end
+
+@interface PickImageViewController : UIViewController
 
 @property (nonatomic, strong) UIImage *imageRecievedFromPhotoStream;
+@property (nonatomic, weak) id <PickImageViewControllerDelegate> delegate;
+
+//- (IBAction) didTapButton:(id)sender;
 
 @end
