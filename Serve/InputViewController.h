@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InputViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate>
+@interface InputViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+
+@property (nonatomic, strong) UIImage *imageRecievedAfterEdit;
 
 @end

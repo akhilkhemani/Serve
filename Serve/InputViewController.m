@@ -8,6 +8,7 @@
 
 #import "InputViewController.h"
 #import "PickUpInfoViewController.h"
+#import "PickImageViewController.h"
 
 const CGFloat LabelX = 30.0f;
 const CGFloat LabelY = 325.0f;
@@ -56,16 +57,19 @@ static NSArray  * cancelButtonActionSheetItems = nil;
 @property (nonatomic, strong) UIActionSheet *cancelButtonActionSheet;
 
 @property (strong, nonatomic) PickUpInfoViewController *pickUpInfoViewController;
+@property (strong, nonatomic) PickImageViewController *pickImageViewController;
 
 - (IBAction)continueButtonPressed:(id)sender;
 - (IBAction)cancelButtonPressed:(id)sender;
-- (void)showActionSheet:(id)sender;
+- (void) showActionSheet:(id)sender;
+- (IBAction) didTapButton:(id)sender;
 
 @end
 
 @implementation InputViewController
 
 @synthesize pickUpInfoViewController;
+@synthesize pickImageViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -79,6 +83,9 @@ static NSArray  * cancelButtonActionSheetItems = nil;
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.toolbarHidden = NO;
+    
+    self.addImageBackgroundView.image = self.imageRecievedAfterEdit;
+    
     [super viewWillAppear:animated];
 }
 
@@ -460,6 +467,38 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     NSLog(@"Going to list view");
 }
 
+- (IBAction) didTapButton:(id)sender
+{
+    UIImagePickerController *pickerController = [[UIImagePickerController alloc]
+                                                 init];
+    pickerController.delegate = self;
+    [self presentModalViewController:pickerController animated:YES];
+}
+
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
+
+- (void) imagePickerController:(UIImagePickerController *)picker
+         didFinishPickingImage:(UIImage *)image
+                   editingInfo:(NSDictionary *)editingInfo
+{
+    if(self.pickImageViewController == nil){
+        PickImageViewController *secondView = [[PickImageViewController alloc] init];
+        self.pickImageViewController= secondView;
+    }
+    
+    self.pickImageViewController.imageRecievedFromPhotoStream = image;
+    [self.navigationController pushViewController:self.pickImageViewController animated:YES];
+    
+    
+//    self.addImageBackgroundView.image = image;
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
+
+
+
 - (void)setUpActionSheets{
     
     self.addPhotoActionSheet = [[UIActionSheet alloc]
@@ -508,8 +547,9 @@ static NSArray  * cancelButtonActionSheetItems = nil;
         [self.navigationController popViewControllerAnimated:YES];
     }
     
-    if ([buttonTitle isEqualToString:@"Other Button 1"]) {
-        NSLog(@"Other 1 pressed");
+    if ([buttonTitle isEqualToString:@"Choose Existing"]) {
+        
+        [self didTapButton:nil];
     }
     if ([buttonTitle isEqualToString:@"Other Button 2"]) {
         NSLog(@"Other 2 pressed");

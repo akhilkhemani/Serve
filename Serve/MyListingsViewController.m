@@ -8,6 +8,7 @@
 
 #import "MyListingsViewController.h"
 #import "InputViewController.h"
+#import "AddListingCell.h"
 
 const CGFloat iconWidth = 25.0f;
 const CGFloat iconHeight = 25.0f;
@@ -39,7 +40,7 @@ const CGFloat iconHeight = 25.0f;
     self.homeTable.separatorInset = UIEdgeInsetsMake(-20, 0, 0, 0);
     self.homeTable.separatorColor=[UIColor grayColor];
     self.homeTable.tableFooterView = [UIView new];
-    [self.homeTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"addListingCell"];
+    [self.homeTable registerClass:[AddListingCell class] forCellReuseIdentifier:@"addListingCell"];
     self.homeTable.tableFooterView = [UIView new];
     
     [self.view addSubview:self.homeTable];
@@ -112,7 +113,7 @@ const CGFloat iconHeight = 25.0f;
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 2;
 }
 
 
@@ -121,25 +122,46 @@ const CGFloat iconHeight = 25.0f;
     return 100.0f;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (AddListingCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     static NSString *CellIdentifier = @"addListingCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    ///
+    // Similar to UITableViewCell, but
+    AddListingCell *cell = (AddListingCell *)[self.homeTable dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[AddListingCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    //Friend *friend = [self.fetchedResultsController objectAtIndexPath:indexPath];
+
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.text = @"Add New Listing";
+    cell.detailTextLabel.text = @"Akhil2";
+
+    //cell.accessoryView = ;
     
-    cell.textLabel.text = @"Akhil1";
-    cell.textLabel.font = [cell.textLabel.font fontWithSize:10];
-    cell.imageView.image = [UIImage imageNamed:@"add.png"];
+    // Just want to test, so I hardcode the data
+    //cell.descriptionLabel.text = @"Testing";
     
-    cell.detailTextLabel.text = @"Raju";
-    cell.detailTextLabel.font = [cell.textLabel.font fontWithSize:10];
-    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+    /////
+    
+    
+
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+//    
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//    }
+//    
+//    //Friend *friend = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//    
+//    cell.textLabel.text = @"Akhil1";
+//    cell.textLabel.font = [cell.textLabel.font fontWithSize:10];
+//    cell.imageView.image = [UIImage imageNamed:@"add.png"];
+//    
+//    cell.detailTextLabel.text = @"Raju";
+//    cell.detailTextLabel.font = [cell.textLabel.font fontWithSize:10];
+//    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     
     return cell;
 

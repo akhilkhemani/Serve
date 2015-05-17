@@ -13,6 +13,8 @@
 		201B33131B076404000930F7 /* subtract.png in Resources */ = {isa = PBXBuildFile; fileRef = 201B33111B076404000930F7 /* subtract.png */; };
 		202CBF121B05AC49007DFB30 /* ReviewSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202CBF111B05AC49007DFB30 /* ReviewSubmitViewController.m */; };
 		2035921F1B044D2000850472 /* EditListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2035921E1B044D2000850472 /* EditListingViewController.m */; };
+		2040C8D21B0925F100CA99B1 /* AddListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2040C8D11B0925F100CA99B1 /* AddListingCell.m */; };
+		2040C8E11B0935E700CA99B1 /* PickImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2040C8E01B0935E700CA99B1 /* PickImageViewController.m */; };
 		20DE79061B0814E900E3F101 /* camera-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DE79051B0814E900E3F101 /* camera-gray.png */; };
 		20DE79081B0824C700E3F101 /* camera-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DE79071B0824C700E3F101 /* camera-2.png */; };
 		20DE790A1B0825B700E3F101 /* food1-gray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20DE79091B0825B700E3F101 /* food1-gray.jpg */; };
@@ -55,6 +57,10 @@
 		202CBF111B05AC49007DFB30 /* ReviewSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewSubmitViewController.m; sourceTree = "<group>"; };
 		2035921D1B044D2000850472 /* EditListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditListingViewController.h; sourceTree = "<group>"; };
 		2035921E1B044D2000850472 /* EditListingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditListingViewController.m; sourceTree = "<group>"; };
+		2040C8D01B0925F100CA99B1 /* AddListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddListingCell.h; sourceTree = "<group>"; };
+		2040C8D11B0925F100CA99B1 /* AddListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddListingCell.m; sourceTree = "<group>"; };
+		2040C8DF1B0935E700CA99B1 /* PickImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickImageViewController.h; sourceTree = "<group>"; };
+		2040C8E01B0935E700CA99B1 /* PickImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickImageViewController.m; sourceTree = "<group>"; };
 		20DE79051B0814E900E3F101 /* camera-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "camera-gray.png"; path = "../../../Downloads/camera-gray.png"; sourceTree = "<group>"; };
 		20DE79071B0824C700E3F101 /* camera-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "camera-2.png"; path = "../../../Downloads/camera-2.png"; sourceTree = "<group>"; };
 		20DE79091B0825B700E3F101 /* food1-gray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "food1-gray.jpg"; path = "../../../Downloads/food1-gray.jpg"; sourceTree = "<group>"; };
@@ -118,6 +124,8 @@
 				201B33021B0751EA000930F7 /* SharedUtils.m */,
 				20DE790B1B082AB000E3F101 /* MyListingsViewController.h */,
 				20DE790C1B082AB000E3F101 /* MyListingsViewController.m */,
+				2040C8DF1B0935E700CA99B1 /* PickImageViewController.h */,
+				2040C8E01B0935E700CA99B1 /* PickImageViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -125,6 +133,8 @@
 		203592191B044ADE00850472 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
+				2040C8D01B0925F100CA99B1 /* AddListingCell.h */,
+				2040C8D11B0925F100CA99B1 /* AddListingCell.m */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -318,6 +328,8 @@
 				201B33031B0751EA000930F7 /* SharedUtils.m in Sources */,
 				20FD2FC91B054D600024D090 /* PickUpInfoViewController.m in Sources */,
 				20EE2B141B01502B00F80CAC /* AppDelegate.m in Sources */,
+				2040C8D21B0925F100CA99B1 /* AddListingCell.m in Sources */,
+				2040C8E11B0935E700CA99B1 /* PickImageViewController.m in Sources */,
 				20DE790D1B082AB000E3F101 /* MyListingsViewController.m in Sources */,
 				202CBF121B05AC49007DFB30 /* ReviewSubmitViewController.m in Sources */,
 				20EE2B111B01502B00F80CAC /* main.m in Sources */,

@@ -11,6 +11,7 @@
 #import "EditListingViewController.h"
 #import "PickUpInfoViewController.h"
 #import "MyListingsViewController.h"
+#import "PickImageViewController.h"
 
 @interface AppDelegate ()
 
@@ -25,10 +26,12 @@
     PickUpInfoViewController *pickUpViewController = [[PickUpInfoViewController alloc]init];
     InputViewController *inputViewController = [[InputViewController alloc]init];
     MyListingsViewController *myListingsViewController = [[MyListingsViewController alloc]init];
+    PickImageViewController *imageViewController =[[PickImageViewController alloc]init];
 
     //self.window.rootViewController = pickUpViewController;
     //self.window.rootViewController = inputViewController;
     self.window.rootViewController = myListingsViewController;
+    //self.window.rootViewController = imageViewController;
     
     navigationController = [[UINavigationController alloc]
                             initWithRootViewController:myListingsViewController];
