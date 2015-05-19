@@ -110,11 +110,9 @@ static NSString * const descriptionPlaceholder = @"Description Text (Optional)";
     self.zipCodeInput.text =@"734101";
     self.phoneInput.text = @"+919434048340";
     //self.pickUpPrefInput.text = @"All Day";
-    
-    
+
 }
 
-- (IBAction)continueButtonPressed:(id)sender {
 - (UIView *)progressIndicator {
     
     _progressIndicator = [[UIView alloc]initWithFrame:CGRectMake(35, 45, 100, 40)];
