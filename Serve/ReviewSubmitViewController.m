@@ -31,22 +31,27 @@ const CGFloat reviewDeleteButtonTag = 1;
 @implementation ReviewSubmitViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    
-    
-    deleteButtonActionSheetItems = [[NSArray alloc] initWithObjects:@"Are you sure you want to delete the listing?",
-                                    @"Discard Listing",@"Cancel", nil];
-    
     [self setUpActionSheets];
-
-    [self.navigationItem setTitle:@"Review & Submit"];
-     self.navigationItem.hidesBackButton = YES;
-    
-
-    
+    [self setUpNavigationController];
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    //[self.view addSubview:self.progressIndicator];
     
-    //int i = 1;
+    
+    
+    ////
+    
+    
+
+    ////
+}
+
+
+-(void) setUpNavigationController
+{
+    [self.navigationItem setTitle:@"Review & Submit"];
+    self.navigationItem.hidesBackButton = YES;
     self.navigationController.toolbarHidden = NO;
     
     UIBarButtonItem *itemSpace = [[UIBarButtonItem alloc]
@@ -55,26 +60,18 @@ const CGFloat reviewDeleteButtonTag = 1;
                                   action:nil];
     
     
-//    UIBarButtonItem *removeViews = [[UIBarButtonItem alloc]
-//                                    initWithTitle:@"Close Views"
-//                                    style: UIBarButtonItemStyleBordered
-//                                    target:self
-//                                    action:@selector(checkButtonClick:)];
-//    removeViews.tag = i++;
-    
-
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Back"
                                    style: UIBarButtonItemStylePlain
                                    target:self
                                    action:@selector(backButtonPressed:)];
-
+    
     
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Submit"
-                                   style: UIBarButtonItemStylePlain
-                                   target:self
-                                   action:@selector(submitButtonPressed:)];
+                                     initWithTitle:@"Submit"
+                                     style: UIBarButtonItemStylePlain
+                                     target:self
+                                     action:@selector(submitButtonPressed:)];
     
     //trash button
     UIImage *trashImage = [UIImage imageNamed:@"trash.png"];
@@ -83,13 +80,6 @@ const CGFloat reviewDeleteButtonTag = 1;
     [button addTarget:self action:@selector(showActionSheet:) forControlEvents:UIControlEventTouchUpInside];
     [button setFrame:CGRectMake(0, 0, trashImage.size.width, trashImage.size.height)];
     button.tag = reviewDeleteButtonTag;
-//    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(3, 21, 50, 20)];
-//    [label setText:@"Discard"];
-//    [label setFont:[UIFont systemFontOfSize:9.0f]];
-//    label.textAlignment = NSTextAlignmentCenter;
-//    [label setTextColor:[UIColor blackColor]];
-//    [label setBackgroundColor:[UIColor clearColor]];
-    //[button addSubview:label];
     UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     /////
     
@@ -98,18 +88,16 @@ const CGFloat reviewDeleteButtonTag = 1;
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
-
+    
     [backButton setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     ////////////////////////////////////////////////////////////
     
-    
     NSArray *items = [NSArray arrayWithObjects:backButton, itemSpace, trashButton, itemSpace, submitButton, nil];
     self.toolbarItems = items;
-    
-    [self.view addSubview:self.progressIndicator];
+
 }
 
 - (UIView *)progressIndicator {
@@ -235,6 +223,9 @@ const CGFloat reviewDeleteButtonTag = 1;
 
 
 - (void) setUpActionSheets{
+    
+    deleteButtonActionSheetItems = [[NSArray alloc] initWithObjects:@"Are you sure you want to delete the listing?",
+                                    @"Discard Listing",@"Cancel", nil];
     
     self.deleteButtonActionSheet= [[UIActionSheet alloc]initWithTitle:[deleteButtonActionSheetItems objectAtIndex:0] delegate:self cancelButtonTitle:[deleteButtonActionSheetItems objectAtIndex:2] destructiveButtonTitle:[deleteButtonActionSheetItems objectAtIndex:1] otherButtonTitles:nil, nil];
     

@@ -11,5 +11,6 @@
 @interface AddListingCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) UILabel *Label;
 
 @end

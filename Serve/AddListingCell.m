@@ -27,28 +27,19 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // configure control(s)
-        self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 10, 300, 30)];
-        self.descriptionLabel.textColor = [UIColor blackColor];
-        self.descriptionLabel.font = [UIFont fontWithName:@"Arial" size:22.0f];
-        self.descriptionLabel.text = @"+";
+        self.Label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2, 25, 300, 30)];
+        self.Label.textColor = [UIColor redColor];
+        self.Label.font = [UIFont fontWithName:@"Arial" size:22.0f];
+        self.Label.text = @"+";
+        self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2-55, self.frame.size.height/2+30, 140, 30)];
+        self.descriptionLabel.textColor = [UIColor redColor];
+        self.descriptionLabel.font = [UIFont fontWithName:@"Arial" size:18.0f];
+        self.descriptionLabel.text = @"Add New Listing";
         
+        [self addSubview:self.Label];
         [self addSubview:self.descriptionLabel];
     }
     return self;
-    
-//    if (self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier]) {
-//        //self.textLabel.font = [UIFont ];
-//        self.textLabel.textColor = [UIColor blackColor];
-//        
-//        [self.textLabel setFrame:CGRectMake(100, 100, 30, 30)];
-//        //self.textLabel.frame = CGRectMake(100, 100, 30, 30);
-//        //self.detailTextLabel.font = [UIFont ws_fontWithKey:WSFontHelveticaNeue withSize:12];
-//        self.detailTextLabel.textColor = [UIColor grayColor];
-//    }
-//    
-//    return self;
-//    
-    
     
 }
 

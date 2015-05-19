@@ -113,7 +113,7 @@ const CGFloat iconHeight = 25.0f;
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 1;
 }
 
 
@@ -130,13 +130,13 @@ const CGFloat iconHeight = 25.0f;
     // Similar to UITableViewCell, but
     AddListingCell *cell = (AddListingCell *)[self.homeTable dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[AddListingCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[AddListingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"Add New Listing";
-    cell.detailTextLabel.text = @"Akhil2";
+//    cell.textLabel.text = @"Add New Listing";
+//    cell.detailTextLabel.text = @"Akhil2";
 
     //cell.accessoryView = ;
     
@@ -192,6 +192,12 @@ const CGFloat iconHeight = 25.0f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    if(self.inputViewController == nil){
+        InputViewController *secondView = [[InputViewController alloc] init];
+        self.inputViewController = secondView;
+    }
+    [self.navigationController pushViewController:self.inputViewController animated:YES];
+    
 }
 
 //-(void) populateCell:(CategoryCell *) cell forIndexPath:(NSIndexPath *) indexPath {

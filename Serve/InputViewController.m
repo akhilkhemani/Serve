@@ -78,6 +78,13 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     [self setUpViewControllerObjects];
     [self setUpActionSheets];
     
+    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+//                                   initWithTarget:self
+//                                   action:@selector(dismissKeyboard)];
+//    
+//    [self.view addGestureRecognizer:tap];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -133,11 +140,13 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     //ADD PHOTO BIG BACKGROUND IMAGE
     self.addImageBackgroundView = [[UIImageView alloc]initWithFrame:CGRectMake(LabelX-40, LabelY - 180, 500, 160)];
     self.addImageBackgroundView.image = [UIImage imageNamed:@"food1-gray.jpg"];
+    //self.addImageBackgroundView.alpha = 0.6f;
     self.addImageBackgroundView.layer.borderColor = [UIColor blackColor].CGColor;
     self.addImageBackgroundView.layer.borderWidth = 0.5f;
     self.addImageBackgroundView.layer.cornerRadius = 10;
     self.addImageBackgroundView.tag = addImageBackgroundViewTag;
     
+
     [self.addImageBackgroundView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageActionSheet:)];
     [singleTap setNumberOfTapsRequired:1];
@@ -186,6 +195,11 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     self.titleInput.textAlignment = NSTextAlignmentCenter;
     self.titleInput.tag = 0;
     
+    //self.titleInput.textContainer.maximumNumberOfLines = 1;
+   
+    self.titleInput.textContainer.maximumNumberOfLines = 1;
+    self.titleInput.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
+    
     self.descInput.text = descriptionPlaceholder;
     self.descInput.delegate = self;
     self.descInput.textColor = [UIColor grayColor];
@@ -225,8 +239,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     [descLabel setText:@"Desc:"];
     [descLabel setFont:[UIFont systemFontOfSize:12]];
     
-    
-    
+
     //[self.view addSubview:self.addImageButton];
     [self.view addSubview:self.addImageBackgroundView];
     [self.view addSubview:addPhotoActionSheetButton];
@@ -265,7 +278,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
 - (void)setTextFieldProperties:(UITextView *)inputView {
     inputView.layer.borderWidth = .5f;
     inputView.layer.borderColor = [[UIColor grayColor] CGColor];
-    inputView.layer.cornerRadius = 15;
+    inputView.layer.cornerRadius = 5;//changed from 15
     inputView.clipsToBounds = YES;
 }
 
@@ -501,7 +514,8 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     //NSLog(@"This was returned from PickImageViewController %@",imageRecieved);
     
     self.addImageBackgroundView.image = imageRecieved;
-    
+    self.addImageBackgroundView.alpha = 1 ;
+
 }
 
 
@@ -592,6 +606,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
+    
     if ([textView.text isEqualToString:@""]) {
         
         if(textView.tag == 0) {
@@ -613,6 +628,27 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     }
     [textView resignFirstResponder];
 }
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    [self.titleInput resignFirstResponder];
+    return YES;
+}
+
+- (void) dismissKeyboard
+{
+    // add self
+    [self resignFirstResponder];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    // dismiss keyboard through `resignFirstResponder`
+    [self.titleInput resignFirstResponder];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
