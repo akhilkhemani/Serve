@@ -12,6 +12,8 @@
 #import "PickUpInfoViewController.h"
 #import "MyListingsViewController.h"
 #import "PickImageViewController.h"
+#import "ReviewSubmitViewController.h"
+#import "NewInputViewController.h"
 
 @interface AppDelegate ()
 
@@ -27,14 +29,19 @@
     InputViewController *inputViewController = [[InputViewController alloc]init];
     MyListingsViewController *myListingsViewController = [[MyListingsViewController alloc]init];
     PickImageViewController *imageViewController =[[PickImageViewController alloc]init];
+    ReviewSubmitViewController *reviewSubmitViewController = [[ReviewSubmitViewController alloc]init];
+    NewInputViewController *newInputViewController = [[NewInputViewController alloc]init];
+    
 
     //self.window.rootViewController = pickUpViewController;
     //self.window.rootViewController = inputViewController;
-    self.window.rootViewController = myListingsViewController;
+    //self.window.rootViewController = myListingsViewController;
     //self.window.rootViewController = imageViewController;
+    //self.window.rootViewController = reviewSubmitViewController;
+    self.window.rootViewController = newInputViewController;
     
     navigationController = [[UINavigationController alloc]
-                            initWithRootViewController:myListingsViewController];
+                            initWithRootViewController:newInputViewController];
     
     //navigationController.navigationBar.barTintColor = [UIColor blueColor];
 

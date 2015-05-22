@@ -14,6 +14,17 @@ const CGFloat reviewProgressButtonX = 80.0f;
 const CGFloat reviewProgressButtonInset = -2.0f;
 const CGFloat reviewProgressIndicatorTextSize = 9.0f;
 
+
+//const CGFloat imageViewHeight = 160.0f;
+//const CGFloat formRightMargin = -15.0f;
+//const CGFloat formLeftMargin = 15.0f;
+//const CGFloat formTopMargin = 160.0f;
+//const CGFloat formItemHeight = 30.0f;
+//const CGFloat formItemToItemOffset = 20.0f;
+//const CGFloat formLabelToFieldOffset = 10.0f;
+//const CGFloat formFieldHeight = 20.0f;
+//static NSString * const titlePlaceholder = @"Title";
+
 static NSArray *deleteButtonActionSheetItems = nil;
 const CGFloat reviewDeleteButtonTag = 1;
 
@@ -21,6 +32,19 @@ const CGFloat reviewDeleteButtonTag = 1;
 
 @property (nonatomic, strong) UIView *progressIndicator;
 @property (nonatomic, strong) UIActionSheet *deleteButtonActionSheet;
+
+
+//starting fresh
+@property (nonatomic, strong) UIImageView *addImageBackgroundView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UITextField *titleInput;
+@property (nonatomic, strong) UIButton *addPhotoActionSheetButton;
+@property (nonatomic, strong) UITextView *descriptionInput;
+@property (nonatomic, readwrite,assign) NSInteger numberOfServes;
+@property (nonatomic, strong) UITextField *servesInput;
+@property (nonatomic, strong) UITextField *typeInput;
+@property (nonatomic, strong) UITextField *cuisineInput;
+@property (nonatomic, retain) NSArray* itemTypes;
 
 - (IBAction)submitButtonPressed:(id)sender;
 - (IBAction)backButtonPressed:(id)sender;
@@ -33,72 +57,204 @@ const CGFloat reviewDeleteButtonTag = 1;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [self setUpActionSheets];
+    //[self setUpActionSheets];
     [self setUpNavigationController];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     //[self.view addSubview:self.progressIndicator];
+
+    
+  /*
+    //ADD PHOTO BIG BACKGROUND IMAGE
+    self.addImageBackgroundView = [[UIImageView alloc]init];
+    self.addImageBackgroundView.image = [UIImage imageNamed:@"food1-gray.jpg"];
+    //self.addImageBackgroundView.alpha = 0.6f;
+    self.addImageBackgroundView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.addImageBackgroundView.layer.borderWidth = 0.5f;
+    self.addImageBackgroundView.layer.cornerRadius = 10;
+    self.addImageBackgroundView.tag = 0;
+    [self.addImageBackgroundView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:nil];
+    [singleTap setNumberOfTapsRequired:1];
+    [self.addImageBackgroundView addGestureRecognizer:singleTap];
+    self.addImageBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    
+    self.addPhotoActionSheetButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.addPhotoActionSheetButton setImage:[UIImage imageNamed:@"camera-2.png"] forState:UIControlStateNormal];
+    [self.addPhotoActionSheetButton addTarget:self action:@selector(showActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+    //[self.addPhotoActionSheetButton setFrame:CGRectMake(160.0f, 196.0f, 55.0f, 55.0f)];
+//    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(-20, 55.0f, 90, 20)];
+//    [label setText:@"Add Photo"];
+//    [label setFont:[UIFont systemFontOfSize:11.0f]];
+//    label.textAlignment = NSTextAlignmentCenter;
+//    [label setTextColor:[UIColor whiteColor]];
+//    [label setBackgroundColor:[UIColor clearColor]];
+//    [self.addPhotoActionSheetButton addSubview:label];
+    self.addPhotoActionSheetButton.translatesAutoresizingMaskIntoConstraints = NO;
+    //addPhotoActionSheetButton.tag = addPhotoTag;
+    
+    
+    self.titleLabel  = [UILabel new];
+    [self.titleLabel setText:@"*Title:"];
+    [self.titleLabel setFont:[UIFont systemFontOfSize:14]];
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+   
+    self.titleInput.tag = 1;
+    self.titleInput = [[UITextField alloc]init];
+    self.titleInput.delegate = self;
+    self.titleInput.textColor = [UIColor grayColor];
+    self.titleInput.font = [UIFont systemFontOfSize:10];
+    self.titleInput.textAlignment = NSTextAlignmentCenter;
+    [self.titleInput setReturnKeyType:UIReturnKeyDone];
+    self.titleInput.text = titlePlaceholder;
+    [self setTextFieldProperties:self.titleInput];
     
     
     
-    ////
+    
     
     
 
-    ////
-}
+    
+    self.descriptionInput = [[UITextView alloc]init];
+    self.descriptionInput.backgroundColor = [UIColor yellowColor];
+    self.descriptionInput.delegate = self;
+    self.descriptionInput.textColor = [UIColor blackColor];
+    self.descriptionInput.textAlignment = NSTextAlignmentCenter;
+    self.descriptionInput.tag = 0;
+    [self.descriptionInput setScrollEnabled:YES];
+    self.descriptionInput.translatesAutoresizingMaskIntoConstraints = NO;
+    self.descriptionInput.layer.borderWidth = .5f;
+    self.descriptionInput.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.descriptionInput.layer.cornerRadius = 5;//changed from 15
+    self.descriptionInput.clipsToBounds = YES;
+    
+    [self.view addSubview:self.addImageBackgroundView];
+    [self.view addSubview:self.addPhotoActionSheetButton];
+    [self.view addSubview:self.titleLabel];
+    [self.view addSubview:self.titleInput];
+    [self.view addSubview:self.descriptionInput];
+    
+    [self setUpConstraints];
+   
+   */
+    }
 
 
--(void) setUpNavigationController
-{
-    [self.navigationItem setTitle:@"Review & Submit"];
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationController.toolbarHidden = NO;
-    
-    UIBarButtonItem *itemSpace = [[UIBarButtonItem alloc]
-                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                  target:nil
-                                  action:nil];
-    
-    
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Back"
-                                   style: UIBarButtonItemStylePlain
-                                   target:self
-                                   action:@selector(backButtonPressed:)];
-    
-    
-    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:@"Submit"
-                                     style: UIBarButtonItemStylePlain
-                                     target:self
-                                     action:@selector(submitButtonPressed:)];
-    
-    //trash button
-    UIImage *trashImage = [UIImage imageNamed:@"trash.png"];
-    UIButton *button =  [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:trashImage forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(showActionSheet:) forControlEvents:UIControlEventTouchUpInside];
-    [button setFrame:CGRectMake(0, 0, trashImage.size.width, trashImage.size.height)];
-    button.tag = reviewDeleteButtonTag;
-    UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    /////
-    
-    ///setting color of back and continue buttons to black
-    [submitButton setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
-      NSFontAttributeName, nil]forState:UIControlStateNormal];
-    
-    [backButton setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
-      NSFontAttributeName, nil]forState:UIControlStateNormal];
-    ////////////////////////////////////////////////////////////
-    
-    NSArray *items = [NSArray arrayWithObjects:backButton, itemSpace, trashButton, itemSpace, submitButton, nil];
-    self.toolbarItems = items;
 
-}
+
+//-(void)setUpConstraints
+//{
+//
+//    UIView *superview = self.view;
+//    
+//    
+//    NSLayoutConstraint *imageViewTopConstraint = [NSLayoutConstraint
+//                                                   constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeTop
+//                                                   relatedBy:NSLayoutRelationEqual toItem:superview attribute:
+//                                                   NSLayoutAttributeTop multiplier:1.0 constant:formTopMargin];
+//    
+//    NSLayoutConstraint *imageViewLeftConstraint = [NSLayoutConstraint
+//                                                   constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeLeft
+//                                                   relatedBy:NSLayoutRelationEqual toItem:superview attribute:
+//                                                   NSLayoutAttributeLeft multiplier:1.0 constant:5.0f];
+//    
+//    NSLayoutConstraint *imageViewRightConstraint = [NSLayoutConstraint
+//                                                  constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeRight
+//                                                  relatedBy:NSLayoutRelationEqual toItem:superview attribute:
+//                                                  NSLayoutAttributeRight multiplier:1.0 constant:-5.0f];
+//    
+//    NSLayoutConstraint *imageViewHeightConstraint = [NSLayoutConstraint
+//                                                     constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeBottom
+//                                                     relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView attribute:
+//                                                     NSLayoutAttributeTop multiplier:1.0 constant:imageViewHeight];
+//    
+//    NSLayoutConstraint *addPhotoButtonCenterXConstraint = [NSLayoutConstraint
+//                                                     constraintWithItem:self.addPhotoActionSheetButton attribute:NSLayoutAttributeCenterX
+//                                                     relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView attribute:
+//                                                     NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+//    
+//    NSLayoutConstraint *addPhotoButtonCenterYConstraint = [NSLayoutConstraint
+//                                                    constraintWithItem:self.addPhotoActionSheetButton attribute:NSLayoutAttributeCenterY
+//                                                    relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView attribute:
+//                                                    NSLayoutAttributeCenterY multiplier:1.0 constant:0.0f];
+//    
+//    
+//    //for titleLabel
+//    NSLayoutConstraint *titleLabelLeftConstraint = [NSLayoutConstraint
+//                                                    constraintWithItem:self.titleLabel attribute:NSLayoutAttributeLeft
+//                                                    relatedBy:NSLayoutRelationEqual toItem:superview attribute:
+//                                                    NSLayoutAttributeLeft multiplier:1.0 constant:formLeftMargin];
+//    
+//    NSLayoutConstraint *titleLabelTopConstraint = [NSLayoutConstraint
+//                                                   constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop
+//                                                   relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView
+//                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0f];
+//    
+//    
+//    NSLayoutConstraint *titleInputLeftConstraint = [NSLayoutConstraint
+//                                                    constraintWithItem:self.titleInput attribute:NSLayoutAttributeLeft
+//                                                    relatedBy:NSLayoutRelationEqual toItem:self.titleLabel attribute:
+//                                                    NSLayoutAttributeRight multiplier:1.0 constant:formLabelToFieldOffset];
+//    
+//    NSLayoutConstraint *titleInputTopConstraint = [NSLayoutConstraint
+//                                                   constraintWithItem:self.titleInput attribute:NSLayoutAttributeTop
+//                                                   relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView
+//                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0f];
+//    
+//    NSLayoutConstraint *titleInputRightConstraint = [NSLayoutConstraint
+//                                                     constraintWithItem:self.titleInput attribute:NSLayoutAttributeRight
+//                                                     relatedBy:NSLayoutRelationEqual toItem:superview attribute:
+//                                                     NSLayoutAttributeRight multiplier:1.0 constant:formRightMargin];
+//    
+//    
+//    NSLayoutConstraint *titleInputHeightConstraint = [NSLayoutConstraint
+//                                                     constraintWithItem:self.titleInput attribute:NSLayoutAttributeBottom
+//                                                     relatedBy:NSLayoutRelationEqual toItem:self.titleInput attribute:
+//                                                     NSLayoutAttributeTop multiplier:1.0 constant:formItemHeight];
+//    
+//    
+//    
+//    
+//    
+//    
+//    [superview addConstraints:@[addPhotoButtonCenterXConstraint,addPhotoButtonCenterYConstraint]];
+//    [superview addConstraints:@[ imageViewTopConstraint, imageViewLeftConstraint,
+//                                 imageViewRightConstraint,imageViewHeightConstraint]];
+//    
+//    [superview addConstraints:@[ titleLabelTopConstraint, titleLabelLeftConstraint]];
+//    [superview addConstraints:@[ titleInputRightConstraint, titleInputLeftConstraint,
+//                                 titleInputTopConstraint,titleInputHeightConstraint]];
+//
+//    
+//
+//    
+//    NSLayoutConstraint *descriptionInputTopConstraint = [NSLayoutConstraint
+//                                                         constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeTop
+//                                                         relatedBy:NSLayoutRelationEqual toItem:self.titleInput
+//                                                         attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5];
+//    
+//    NSLayoutConstraint *descriptionInputLeftConstraint = [NSLayoutConstraint
+//                                                          constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual toItem:superview attribute:
+//                                                          NSLayoutAttributeLeft multiplier:1.0 constant:50.0f];
+//    
+//    NSLayoutConstraint *descriptionInputRightConstraint = [NSLayoutConstraint
+//                                                           constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeRight
+//                                                           relatedBy:NSLayoutRelationEqual toItem:superview attribute:
+//                                                           NSLayoutAttributeRight multiplier:1.0 constant:-50.0f];
+//    
+//    
+//    NSLayoutConstraint *descriptionInputHeightConstraint = [NSLayoutConstraint
+//                                                            constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeBottom
+//                                                            relatedBy:NSLayoutRelationEqual toItem:self.descriptionInput
+//                                                            attribute:NSLayoutAttributeTop multiplier:1.0 constant:40];
+//    
+////    [superview addConstraints:@[descriptionInputLeftConstraint, descriptionInputRightConstraint,
+////                                descriptionInputTopConstraint, descriptionInputHeightConstraint]];
+//
+//    
+//}
 
 - (UIView *)progressIndicator {
     
@@ -170,47 +326,69 @@ const CGFloat reviewDeleteButtonTag = 1;
     return _progressIndicator;
 }
 
-- (void) checkButtonClick:(id)sender {
+
+-(void) setUpNavigationController
+{
+    [self.navigationItem setTitle:@"Review & Submit"];
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationController.toolbarHidden = NO;
     
-    //get reference to the button that requested the action
-    UIBarButtonItem *myButton = (UIBarButtonItem *)sender;
-    NSLog(@"Clicked on one of the toolbar buttons");
+    UIBarButtonItem *itemSpace = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                  target:nil
+                                  action:nil];
     
-    //check which button it is, if you have more than one button on the screen
-    //you must check before taking necessary action
-    switch (myButton.tag) {
-        case 1:
-            //hide the navigation bar
-            [self.navigationController setNavigationBarHidden:YES animated:YES];
-            break;
-            
-        case 2:
-            
-        {
-            //Get the current array of View Controllers
-            NSArray *currentControllers = self.navigationController.viewControllers;
-            
-            //Create a mutable array out of this array
-            NSMutableArray *newControllers = [NSMutableArray arrayWithArray:currentControllers];
-            
-            //create an array set of interger indexes
-            NSMutableIndexSet *indexes = [NSMutableIndexSet
-                                          indexSetWithIndexesInRange:NSMakeRange(1, 2)];
-            
-            //Remove the objects from the controller array based on the indexes
-            [newControllers removeObjectsAtIndexes:indexes];
-            
-            //Assign the manipulated array to the Navigation Controller with animation
-            [self.navigationController setViewControllers:newControllers
-                                                 animated:YES];
-        }
-            break;
-            
-        default:
-            break;
-    }
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Back"
+                                   style: UIBarButtonItemStylePlain
+                                   target:self
+                                   action:@selector(backButtonPressed:)];
+    
+    
+    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:@"Submit"
+                                     style: UIBarButtonItemStylePlain
+                                     target:self
+                                     action:@selector(submitButtonPressed:)];
+    
+    //trash button
+    UIImage *trashImage = [UIImage imageNamed:@"trash.png"];
+    UIButton *button =  [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:trashImage forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(showActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+    [button setFrame:CGRectMake(0, 0, trashImage.size.width, trashImage.size.height)];
+    button.tag = reviewDeleteButtonTag;
+    UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    /////
+    
+    ///setting color of back and continue buttons to black
+    [submitButton setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      NSFontAttributeName, nil]forState:UIControlStateNormal];
+    
+    [backButton setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      NSFontAttributeName, nil]forState:UIControlStateNormal];
+    ////////////////////////////////////////////////////////////
+    
+    NSArray *items = [NSArray arrayWithObjects:backButton, itemSpace, trashButton, itemSpace, submitButton, nil];
+    self.toolbarItems = items;
     
 }
+
+- (void)setTextFieldProperties:(UITextField *)inputView {
+    
+    inputView.translatesAutoresizingMaskIntoConstraints = NO;
+    inputView.layer.borderWidth = .5f;
+    inputView.layer.borderColor = [[UIColor grayColor] CGColor];
+    inputView.layer.cornerRadius = 5;//changed from 15
+    inputView.clipsToBounds = YES;
+}
+
+
 
 - (IBAction)backButtonPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -267,14 +445,5 @@ const CGFloat reviewDeleteButtonTag = 1;
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

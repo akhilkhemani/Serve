@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PickImageViewController.h"
 
-@interface InputViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
-
-@property (nonatomic, strong) UIImage *imageRecievedAfterEdit;
+@interface InputViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>
 
 @end
 

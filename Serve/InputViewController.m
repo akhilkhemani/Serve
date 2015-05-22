@@ -25,9 +25,9 @@ const CGFloat typeButtonY = serveButtonY +50.0f;
 const CGFloat buttonInset = -2.0f;
 const CGFloat InputProgressIndicatorTextSize = 9.0f;
 
-const CGFloat cancelButtonTag = 1;
-const CGFloat addPhotoTag = 2;
-const CGFloat addImageBackgroundViewTag = 3;
+//const CGFloat cancelButtonTag = 1;
+//const CGFloat addPhotoTag = 2;
+//const CGFloat addImageBackgroundViewTag = 3;
 
 static NSString * const titlePlaceholder = @"Title";
 static NSString * const cuisinePlaceholder = @"Indian, Chinese etc?";
@@ -35,7 +35,7 @@ static NSString * const descriptionPlaceholder = @"Description Text (Optional)";
 static NSArray  * addPhotoActionSheetItems = nil;
 static NSArray  * cancelButtonActionSheetItems = nil;
 
-@interface InputViewController ()<UITextViewDelegate>
+@interface InputViewController ()
 
 @property (nonatomic, readwrite,assign) NSInteger numberOfServes;
 @property (nonatomic, strong) UITextView *titleInput;
@@ -126,7 +126,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
       [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     
-    cancelButton.tag = cancelButtonTag;
+    //cancelButton.tag = cancelButtonTag;
     
     //create an array of buttons
     NSArray *items = [NSArray arrayWithObjects:cancelButton, itemSpace, continueButton, nil];
@@ -144,7 +144,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     self.addImageBackgroundView.layer.borderColor = [UIColor blackColor].CGColor;
     self.addImageBackgroundView.layer.borderWidth = 0.5f;
     self.addImageBackgroundView.layer.cornerRadius = 10;
-    self.addImageBackgroundView.tag = addImageBackgroundViewTag;
+    //self.addImageBackgroundView.tag = addImageBackgroundViewTag;
     
 
     [self.addImageBackgroundView setUserInteractionEnabled:YES];
@@ -164,7 +164,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     [label setTextColor:[UIColor whiteColor]];
     [label setBackgroundColor:[UIColor clearColor]];
     [addPhotoActionSheetButton addSubview:label];
-    addPhotoActionSheetButton.tag = addPhotoTag;
+    //addPhotoActionSheetButton.tag = addPhotoTag;
 
     self.itemTypes = @[@"Vegetarian",@"Non-Vegetarian"];
     self.numberOfServes = 1;
@@ -194,6 +194,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     self.titleInput.textColor = [UIColor grayColor];
     self.titleInput.textAlignment = NSTextAlignmentCenter;
     self.titleInput.tag = 0;
+    [self.titleInput setScrollEnabled:NO];
     
     //self.titleInput.textContainer.maximumNumberOfLines = 1;
    
@@ -473,10 +474,6 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     [self.navigationController pushViewController:self.pickUpInfoViewController animated:YES];
 }
 
-- (IBAction)cancelButtonPressed:(id)sender {
-    NSLog(@"Going to list view");
-}
-
 - (IBAction) didTapButton:(id)sender
 {
     UIImagePickerController *pickerController = [[UIImagePickerController alloc]
@@ -533,21 +530,17 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     
 }
 
-- (void)willPresentActionSheet:(UIActionSheet *)actionSheet
-{
-
-}
 
 - (void)showActionSheet:(id)sender {
     
     NSInteger senderTag = [sender tag];
     
-    if(senderTag == addPhotoTag)
+    if(senderTag == 2)
     {
         [self.addPhotoActionSheet showInView:self.view];
     }
     
-    if(senderTag == cancelButtonTag)
+    if(senderTag == 1)
     {
         [self.cancelButtonActionSheet showInView:self.view];
     }
@@ -582,6 +575,10 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     }
 }
 
+
+//not copied here onwards
+
+
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     
     if ([textView.text isEqualToString:titlePlaceholder])
@@ -604,6 +601,7 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     
     [textView becomeFirstResponder];
 }
+
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     

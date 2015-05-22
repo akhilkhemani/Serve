@@ -12,7 +12,6 @@
 		201B33121B076404000930F7 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 201B33101B076404000930F7 /* add.png */; };
 		201B33131B076404000930F7 /* subtract.png in Resources */ = {isa = PBXBuildFile; fileRef = 201B33111B076404000930F7 /* subtract.png */; };
 		202CBF121B05AC49007DFB30 /* ReviewSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202CBF111B05AC49007DFB30 /* ReviewSubmitViewController.m */; };
-		2035921F1B044D2000850472 /* EditListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2035921E1B044D2000850472 /* EditListingViewController.m */; };
 		2040C8D21B0925F100CA99B1 /* AddListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2040C8D11B0925F100CA99B1 /* AddListingCell.m */; };
 		2040C8E11B0935E700CA99B1 /* PickImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2040C8E01B0935E700CA99B1 /* PickImageViewController.m */; };
 		20DE79061B0814E900E3F101 /* camera-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DE79051B0814E900E3F101 /* camera-gray.png */; };
@@ -34,6 +33,7 @@
 		20EE2B221B01502B00F80CAC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20EE2B201B01502B00F80CAC /* LaunchScreen.xib */; };
 		20EE2B2E1B01502B00F80CAC /* ServeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE2B2D1B01502B00F80CAC /* ServeTests.m */; };
 		20EE2B3F1B01511700F80CAC /* InputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE2B3E1B01511700F80CAC /* InputViewController.m */; };
+		20EF27941B0C24FC0082A828 /* NewInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF27931B0C24FC0082A828 /* NewInputViewController.m */; };
 		20FD2FC91B054D600024D090 /* PickUpInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FD2FC81B054D600024D090 /* PickUpInfoViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -55,8 +55,6 @@
 		201B33111B076404000930F7 /* subtract.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = subtract.png; path = ../../../Downloads/subtract.png; sourceTree = "<group>"; };
 		202CBF101B05AC49007DFB30 /* ReviewSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewSubmitViewController.h; sourceTree = "<group>"; };
 		202CBF111B05AC49007DFB30 /* ReviewSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewSubmitViewController.m; sourceTree = "<group>"; };
-		2035921D1B044D2000850472 /* EditListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditListingViewController.h; sourceTree = "<group>"; };
-		2035921E1B044D2000850472 /* EditListingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditListingViewController.m; sourceTree = "<group>"; };
 		2040C8D01B0925F100CA99B1 /* AddListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddListingCell.h; sourceTree = "<group>"; };
 		2040C8D11B0925F100CA99B1 /* AddListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddListingCell.m; sourceTree = "<group>"; };
 		2040C8DF1B0935E700CA99B1 /* PickImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickImageViewController.h; sourceTree = "<group>"; };
@@ -87,6 +85,8 @@
 		20EE2B2D1B01502B00F80CAC /* ServeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServeTests.m; sourceTree = "<group>"; };
 		20EE2B3D1B01511700F80CAC /* InputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputViewController.h; sourceTree = "<group>"; };
 		20EE2B3E1B01511700F80CAC /* InputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputViewController.m; sourceTree = "<group>"; };
+		20EF27921B0C24FC0082A828 /* NewInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewInputViewController.h; sourceTree = "<group>"; };
+		20EF27931B0C24FC0082A828 /* NewInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewInputViewController.m; sourceTree = "<group>"; };
 		20FD2FC71B054D600024D090 /* PickUpInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickUpInfoViewController.h; sourceTree = "<group>"; };
 		20FD2FC81B054D600024D090 /* PickUpInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickUpInfoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,20 +112,20 @@
 		203592181B044A8300850472 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				20DE790B1B082AB000E3F101 /* MyListingsViewController.h */,
+				20DE790C1B082AB000E3F101 /* MyListingsViewController.m */,
 				20EE2B3D1B01511700F80CAC /* InputViewController.h */,
 				20EE2B3E1B01511700F80CAC /* InputViewController.m */,
-				2035921D1B044D2000850472 /* EditListingViewController.h */,
-				2035921E1B044D2000850472 /* EditListingViewController.m */,
 				20FD2FC71B054D600024D090 /* PickUpInfoViewController.h */,
 				20FD2FC81B054D600024D090 /* PickUpInfoViewController.m */,
 				202CBF101B05AC49007DFB30 /* ReviewSubmitViewController.h */,
 				202CBF111B05AC49007DFB30 /* ReviewSubmitViewController.m */,
-				201B33011B0751EA000930F7 /* SharedUtils.h */,
-				201B33021B0751EA000930F7 /* SharedUtils.m */,
-				20DE790B1B082AB000E3F101 /* MyListingsViewController.h */,
-				20DE790C1B082AB000E3F101 /* MyListingsViewController.m */,
 				2040C8DF1B0935E700CA99B1 /* PickImageViewController.h */,
 				2040C8E01B0935E700CA99B1 /* PickImageViewController.m */,
+				201B33011B0751EA000930F7 /* SharedUtils.h */,
+				201B33021B0751EA000930F7 /* SharedUtils.m */,
+				20EF27921B0C24FC0082A828 /* NewInputViewController.h */,
+				20EF27931B0C24FC0082A828 /* NewInputViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -333,7 +333,7 @@
 				20DE790D1B082AB000E3F101 /* MyListingsViewController.m in Sources */,
 				202CBF121B05AC49007DFB30 /* ReviewSubmitViewController.m in Sources */,
 				20EE2B111B01502B00F80CAC /* main.m in Sources */,
-				2035921F1B044D2000850472 /* EditListingViewController.m in Sources */,
+				20EF27941B0C24FC0082A828 /* NewInputViewController.m in Sources */,
 				20EE2B171B01502B00F80CAC /* Serve.xcdatamodeld in Sources */,
 				20EE2B3F1B01511700F80CAC /* InputViewController.m in Sources */,
 			);
