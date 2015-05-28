@@ -46,15 +46,25 @@
     //self.window.rootViewController = inputViewController;
     //self.window.rootViewController = myListingsViewController;
     //self.window.rootViewController = imageViewController;
-    self.window.rootViewController = reviewSubmitViewController;
-    //self.window.rootViewController = newInputViewController;
+    //self.window.rootViewController = reviewSubmitViewController;
+    self.window.rootViewController = newInputViewController;
     //self.window.rootViewController = newPickUpinfoViewController;
     
-    navigationController = [[UINavigationController alloc]
-                            initWithRootViewController:reviewSubmitViewController];
     
-    //navigationController.navigationBar.barTintColor = [UIColor blueColor];
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [UIColor whiteColor],NSForegroundColorAttributeName,
+                                                nil];
 
+    navigationController = [[UINavigationController alloc]
+                            initWithRootViewController:newInputViewController];
+    
+    navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    navigationController.navigationBar.titleTextAttributes = navbarTitleTextAttributes;
+    
+    
+    navigationController.toolbar.barTintColor = [UIColor blackColor];
+    navigationController.toolbar.translucent = YES ;
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];

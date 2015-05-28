@@ -73,7 +73,11 @@ static NSArray *deleteButtonActionSheetItems = nil;
     self.progressIndicator.translatesAutoresizingMaskIntoConstraints=NO;
     self.progressIndicator.layer.borderColor = [UIColor blackColor].CGColor;
     self.progressIndicator.layer.borderWidth = 0.5f;
-    [self.progressIndicator setBackgroundColor:[UIColor lightGrayColor]];
+    [self.progressIndicator setBackgroundColor:[UIColor blackColor]];
+    //self.progressIndicator.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    self.progressIndicator.opaque = NO;
+    self.progressIndicator.alpha = 0.7;
+    
 
     self.addressLabel  = [UILabel new];
     [self.addressLabel setText:@"ADDRESS\nLine1"];
@@ -377,12 +381,12 @@ static NSArray *deleteButtonActionSheetItems = nil;
     ///setting color of back and continue buttons to black
     [continueButton setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      [UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     
     [backButton setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      [UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     ////////
     

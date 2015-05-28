@@ -118,12 +118,12 @@ static NSArray  * cancelButtonActionSheetItems = nil;
     //[continueButton setTitle:@"Continue"];
     [continueButton setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      [UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     
     [cancelButton setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      [UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     
     //cancelButton.tag = cancelButtonTag;

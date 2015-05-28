@@ -23,28 +23,8 @@ typedef enum : NSInteger
     ImageBackgroundViewTag,
     CancelButtonTag,
     ContinueButtonTag
-} InputViewTags;
-
-//const CGFloat imageViewHeight = 160.0f;
-const CGFloat imageViewHeightPercent = 0.15f;
-
-const CGFloat formRightMargin = 0.95f;
-const CGFloat formLeftMargin = .7f;
-
-const CGFloat formTopMargin = 100.0f;
-//const CGFloat formBottomMargin = -70.0f;
-const CGFloat formBottomMargin = .90f;
-
-const CGFloat formInputViewHeight = 30.0f;
-const CGFloat formLabelToLabelOffset = 20.0f;
-const CGFloat formLabelToFieldOffset = 70.0f;
-
-const CGFloat formFieldToFieldOffsetPercent = 0.02;
-
-const CGFloat formFieldHeight = 20.0f;
-const CGFloat buttonOffsetFromInputLeft = 5.0f;
-const CGFloat specialButtonToInputViewLeftOffset = 20.0f;
-const CGFloat specialButtonToInputViewRightOffset = -specialButtonToInputViewLeftOffset;
+    
+} Tags;
 
 const CGFloat labelBorderWidth = 0.3f;
 
@@ -54,6 +34,10 @@ static NSString * const descriptionPlaceholder = @"Description Text (Optional)";
 static NSArray  * addPhotoActionSheetItems = nil;
 static NSArray  * cancelButtonActionSheetItems = nil;
 
+const CGFloat labelFontSize = 11.0f;
+const int allowedNumberOfCharactersInTitle = 4;
+const int allowedNumberOfCharactersInCuisine = allowedNumberOfCharactersInTitle;
+
 //for animation
 CGFloat animatedDistance;
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
@@ -61,7 +45,6 @@ static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
 static const CGFloat MAXIMUM_SCROLL_FRACTION = 0.8;
 static const CGFloat PORTRAIT_KEYBOARD_HEIGHT = 216;
 static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
-
 
 @interface NewInputViewController ()
 
@@ -90,11 +73,9 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 @property (nonatomic, strong) UIActionSheet *addPhotoActionSheet;
 @property (nonatomic, strong) UIActionSheet *cancelButtonActionSheet;
 
-
 - (IBAction)continueButtonPressed:(id)sender;
 - (void) showActionSheet:(id)sender;
 - (IBAction) didTapButton:(id)sender;
-
 
 @end
 
@@ -135,8 +116,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [self.view setBackgroundColor:[UIColor whiteColor]];
 }
 
-
--(void)setUpViewControllerObjects {
+- (void)setUpViewControllerObjects {
 
     self.progressIndicator = [[UIView alloc]init];
     self.progressIndicator.translatesAutoresizingMaskIntoConstraints=NO;
@@ -156,7 +136,6 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 //    step1Button.layer.cornerRadius = 10;
 //    step1Button.contentEdgeInsets = UIEdgeInsetsMake(1.0, 0.0, 0.0, 0.0);
 //    [self.progressIndicator addSubview:step1Button];
-    
     
 
     //ADD PHOTO BIG BACKGROUND IMAGE
@@ -188,25 +167,24 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     self.addPhotoActionSheetButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.addPhotoActionSheetButton.tag = AddImageButtonTag;
     
-    
     self.titleLabel  = [UILabel new];
     [self.titleLabel setText:@"*TITLE:"];
-    [self.titleLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.titleLabel setFont:[UIFont systemFontOfSize:labelFontSize]];
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.servesLabel  = [UILabel new];
     [self.servesLabel setText:@"*SERVES:"];
-    [self.servesLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.servesLabel setFont:[UIFont systemFontOfSize:labelFontSize]];
     self.servesLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.typeLabel  = [UILabel new];
     [self.typeLabel setText:@"*TYPE:"];
-    [self.typeLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.typeLabel setFont:[UIFont systemFontOfSize:labelFontSize]];
     self.typeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.cuisineLabel = [UILabel new];
     [self.cuisineLabel setText:@"*CUISINE:"];
-    [self.cuisineLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.cuisineLabel setFont:[UIFont systemFontOfSize:labelFontSize]];
     self.cuisineLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.descLabel = [UILabel new];
@@ -214,14 +192,14 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [self.descLabel setFont:[UIFont systemFontOfSize:10]];
     self.descLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
-    
     self.titleInput = [[UITextField alloc]init];
     self.titleInput.tag = TitleInputTag;
     self.titleInput.delegate = self;
     self.titleInput.textColor = [UIColor grayColor];
-    self.titleInput.font = [UIFont systemFontOfSize:10];
+    self.titleInput.font = [UIFont systemFontOfSize:labelFontSize];
     self.titleInput.textAlignment = NSTextAlignmentCenter;
     [self.titleInput setReturnKeyType:UIReturnKeyDone];
+    [self.titleInput setKeyboardAppearance:UIKeyboardAppearanceDark];
     self.titleInput.text = titlePlaceholder;
     //[self setTextFieldProperties:self.titleInput];
     self.titleInput.translatesAutoresizingMaskIntoConstraints = NO;
@@ -234,6 +212,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     self.servesInput = [[UITextView alloc]init];
     self.servesInput.text = [NSString stringWithFormat:@"%ld",self.numberOfServes];//this has to be a property counting serves
     self.servesInput.textColor = [UIColor blackColor];
+    self.servesInput.font = [UIFont systemFontOfSize:labelFontSize];
     self.servesInput.textAlignment = NSTextAlignmentCenter;
     self.servesInput.editable = NO;
     self.servesInput.translatesAutoresizingMaskIntoConstraints = NO;
@@ -241,9 +220,6 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     self.servesInput.layer.borderColor = [[UIColor grayColor] CGColor];
     self.servesInput.layer.cornerRadius = 5;//changed from 15
     self.servesInput.clipsToBounds = YES;
-//    CGRect frameRect = self.servesInput.frame;
-//    frameRect.size.height = 0;
-//    self.servesInput.frame = frameRect;
     self.servesInput.tag = ServesInputTag;
     
     
@@ -251,6 +227,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     self.typeInput = [[UITextView alloc]init];
     self.typeInput.text = [self.itemTypes objectAtIndex:0];//default item type is veg
     self.typeInput.textColor = [UIColor blackColor];
+    self.typeInput.font = [UIFont systemFontOfSize:labelFontSize];
     self.typeInput.textAlignment = NSTextAlignmentCenter;
     self.typeInput.editable = NO;
     self.typeInput.translatesAutoresizingMaskIntoConstraints = NO;
@@ -266,6 +243,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     self.cuisineInput.text = cuisinePlaceholder;//default item type is veg
     self.cuisineInput.textColor = [UIColor grayColor];
     self.cuisineInput.textAlignment = NSTextAlignmentCenter;
+    self.cuisineInput.font = [UIFont systemFontOfSize:labelFontSize];
     self.cuisineInput.tag = CusineInputTag;
     self.cuisineInput.delegate = self;
     self.cuisineInput.translatesAutoresizingMaskIntoConstraints = NO;
@@ -280,6 +258,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     self.descInput.text = descriptionPlaceholder;
     self.descInput.delegate = self;
     self.descInput.textColor = [UIColor grayColor];
+    self.descInput.font = [UIFont systemFontOfSize:labelFontSize];
     self.descInput.textAlignment = NSTextAlignmentCenter;
     self.descInput.translatesAutoresizingMaskIntoConstraints = NO;
     self.descInput.layer.borderWidth = labelBorderWidth;
@@ -334,6 +313,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     
     return _nextTypeButton;
 }
+
 - (UIButton *)previousTypeButton {
     
     if (!_previousTypeButton) {
@@ -348,91 +328,13 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     return _previousTypeButton;
 }
 
-//- (UIView *) progressIndicator {
-//    
-//    //NSLog(@"%f",self.addImageBackgroundView.frame.origin.y);
-//    
-//    _progressIndicator = [[UIView alloc]init];
-//    _progressIndicator.backgroundColor = [UIColor yellowColor];
-//    _progressIndicator.translatesAutoresizingMaskIntoConstraints=NO;
-//
-//    
-//    //_progressIndicator = [[UIView alloc]initWithFrame:CGRectMake(35, 45, 100, 40)];
-//    
-//    UIButton *step1Button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [step1Button setFrame:CGRectMake(_progressIndicator.frame.origin.x+16,_progressIndicator.frame.origin.y,serveButtonSize, serveButtonSize)];
-//    [step1Button setTitle:@"1" forState:UIControlStateNormal];
-//    [step1Button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    //[step1Button addTarget:self action:@selector(toggleItemType:) forControlEvents:UIControlEventTouchUpInside];
-//    step1Button.layer.borderWidth=1.0f;
-//    step1Button.layer.borderColor=[[UIColor blackColor] CGColor];
-//    step1Button.layer.backgroundColor = [[UIColor blackColor] CGColor];
-//    step1Button.layer.cornerRadius = 10;
-//    step1Button.contentEdgeInsets = UIEdgeInsetsMake(buttonInset, 0.0, 0.0, 0.0);
-////    
-////    UILabel *step1Label = [[UILabel alloc]initWithFrame:CGRectMake(_progressIndicator.frame.origin.x, _progressIndicator.frame.origin.y+serveButtonSize, 60, 20)];
-////    [step1Label setText:@"Item Details"];
-////    [step1Label setFont:[UIFont systemFontOfSize:InputProgressIndicatorTextSize]];
-////    [step1Label setTextColor:[UIColor redColor]];
-////    
-////    
-////    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(_progressIndicator.frame.origin.x+16+serveButtonSize, _progressIndicator.frame.origin.y+serveButtonSize/2, 75, 1.0f)];
-////    lineView1.backgroundColor = [UIColor blackColor];
-////    
-////    
-////    UIButton *step2Button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-////    [step2Button setFrame:CGRectMake(_progressIndicator.frame.origin.x+16+serveButtonSize+lineView1.frame.size.width,_progressIndicator.frame.origin.y,serveButtonSize, serveButtonSize)];
-////    [step2Button setTitle:@"2" forState:UIControlStateNormal];
-////    [step2Button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-////    //[part1Button addTarget:self action:@selector(toggleItemType:) forControlEvents:UIControlEventTouchUpInside];
-////    step2Button.layer.borderWidth=1.0f;
-////    step2Button.layer.borderColor=[[UIColor blackColor] CGColor];
-////    step2Button.layer.backgroundColor = [[UIColor whiteColor] CGColor];
-////    step2Button.layer.cornerRadius = 10;
-////    step2Button.contentEdgeInsets = UIEdgeInsetsMake(buttonInset, 0.0, 0.0, 0.0);
-////    
-////    UILabel *step2Label = [[UILabel alloc]initWithFrame:CGRectMake(step1Label.frame.origin.x+lineView1.frame.size.width+8, _progressIndicator.frame.origin.y+serveButtonSize, 80, 20)];
-////    [step2Label setText:@"Pickup Information"];
-////    [step2Label setFont:[UIFont systemFontOfSize:InputProgressIndicatorTextSize]];
-////    
-////    
-////    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(lineView1.frame.origin.x+lineView1.frame.size.width+serveButtonSize, _progressIndicator.frame.origin.y+serveButtonSize/2, 75, 1.0f)];
-////    lineView2.backgroundColor = [UIColor blackColor];
-////    
-////    UIButton *step3Button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-////    [step3Button setFrame:CGRectMake(lineView2.frame.origin.x+lineView2.frame.size.width,_progressIndicator.frame.origin.y,serveButtonSize, serveButtonSize)];
-////    [step3Button setTitle:@"3" forState:UIControlStateNormal];
-////    [step3Button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-////    //[step3Button addTarget:self action:@selector(toggleItemType:) forControlEvents:UIControlEventTouchUpInside];
-////    step3Button.layer.borderWidth=1.0f;
-////    step3Button.layer.borderColor=[[UIColor blackColor] CGColor];
-////    step3Button.layer.backgroundColor = [[UIColor whiteColor] CGColor];
-////    step3Button.layer.cornerRadius = 10;
-////    step3Button.contentEdgeInsets = UIEdgeInsetsMake(buttonInset, 0.0, 0.0, 0.0);
-////    
-////    UILabel *step3Label = [[UILabel alloc]initWithFrame:CGRectMake(step2Label.frame.origin.x+lineView2.frame.size.width+26, _progressIndicator.frame.origin.y+serveButtonSize, 80, 20)];
-////    [step3Label setText:@"Review/Submit"];
-////    [step3Label setFont:[UIFont systemFontOfSize:InputProgressIndicatorTextSize]];
-////    
-////    [_progressIndicator addSubview:step1Button];
-////    [_progressIndicator addSubview:step1Label];
-////    [_progressIndicator addSubview:lineView1];
-////    [_progressIndicator addSubview:step2Button];
-////    [_progressIndicator addSubview:step2Label];
-////    [_progressIndicator addSubview:lineView2];
-////    [_progressIndicator addSubview:step3Button];
-////    [_progressIndicator addSubview:step3Label];
-//    
-//    
-//    return _progressIndicator;
-//}
 
 -(void)setUpNavigationController {
     
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.toolbarHidden = NO;
     [self.navigationItem setTitle:@"Item Information"];
-
+    
     UIBarButtonItem *itemSpace = [[UIBarButtonItem alloc]
                                   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                   target:nil
@@ -448,12 +350,12 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     
     [continueButton setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      [UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     
     [cancelButton setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor blackColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+      [UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica-Bold" size:12.0],
       NSFontAttributeName, nil]forState:UIControlStateNormal];
     
     cancelButton.tag = CancelButtonTag;// this has tto be assigned
@@ -462,220 +364,6 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     NSArray *items = [NSArray arrayWithObjects:cancelButton, itemSpace, continueButton, nil];
     //add the buttons to the toolbar
     self.toolbarItems = items;
-    
-}
-
-//this has to be eventually deleted
--(void)setUpConstraintsNew {
-    
-    UIView *superview = self.view;
-    
-    NSLayoutConstraint *imageViewTopConstraint = [NSLayoutConstraint
-                                            constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeTop
-                                            relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                            NSLayoutAttributeTopMargin multiplier:1 constant:0.25*[UIScreen mainScreen].bounds.size.height];
-    
-    
-    NSLayoutConstraint *imageViewLeftConstraint = [NSLayoutConstraint
-                                                   constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeLeft
-                                                   relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                   NSLayoutAttributeLeft multiplier:1.0 constant:5.0f];
-    
-    NSLayoutConstraint *imageViewRightConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeRight
-                                                    relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                    NSLayoutAttributeRight multiplier:1.0 constant:-5.0f];
-    
-    NSLayoutConstraint *imageViewHeightConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                     NSLayoutAttributeHeight multiplier:.3 constant:0.0];
-    
-    
-
-    NSLayoutConstraint *titleInputLeftConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.titleInput attribute:NSLayoutAttributeLeft
-                                                    relatedBy:NSLayoutRelationEqual toItem:self.titleLabel attribute:
-                                                    NSLayoutAttributeLeft multiplier:1.0 constant:formLabelToFieldOffset];
-    NSLayoutConstraint *titleInputTopConstraint = [NSLayoutConstraint
-                                                   constraintWithItem:self.titleInput attribute:NSLayoutAttributeTop
-                                                   relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView
-                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:formFieldToFieldOffsetPercent * [UIScreen mainScreen].bounds.size.height];
-    
-    NSLayoutConstraint *titleInputRightConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.titleInput attribute:NSLayoutAttributeRight
-                                                     relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                     NSLayoutAttributeRight multiplier:.95 constant:0];
-    NSLayoutConstraint *titleInputHeightConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.titleInput attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual toItem:self.servesInput attribute:
-                                                     NSLayoutAttributeHeight multiplier:1.0 constant:0.0];
-    
-    NSLayoutConstraint *servesInputLeftConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.servesInput attribute:NSLayoutAttributeLeft
-                                                    relatedBy:NSLayoutRelationEqual toItem:self.servesLabel attribute:
-                                                    NSLayoutAttributeLeft multiplier:1.0 constant:formLabelToFieldOffset];
-    NSLayoutConstraint *servesInputTopConstraint = [NSLayoutConstraint
-                                                   constraintWithItem:self.servesInput attribute:NSLayoutAttributeTop
-                                                   relatedBy:NSLayoutRelationEqual toItem:self.titleInput
-                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:formFieldToFieldOffsetPercent * [UIScreen mainScreen].bounds.size.height];
-    NSLayoutConstraint *servesInputRightConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.servesInput attribute:NSLayoutAttributeRight
-                                                     relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                     NSLayoutAttributeRight multiplier:formRightMargin constant:0];
-    
-    NSLayoutConstraint *typeInputLeftConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.typeInput attribute:NSLayoutAttributeLeft
-                                                     relatedBy:NSLayoutRelationEqual toItem:self.typeLabel attribute:
-                                                     NSLayoutAttributeLeft multiplier:1.0 constant:formLabelToFieldOffset];
-    NSLayoutConstraint *typeInputTopConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.typeInput attribute:NSLayoutAttributeTop
-                                                    relatedBy:NSLayoutRelationEqual toItem:self.servesInput
-                                                    attribute:NSLayoutAttributeBottom multiplier:1.0 constant:formFieldToFieldOffsetPercent * [UIScreen mainScreen].bounds.size.height];
-    NSLayoutConstraint *typeInputRightConstraint = [NSLayoutConstraint
-                                                      constraintWithItem:self.typeInput attribute:NSLayoutAttributeRight
-                                                      relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                      NSLayoutAttributeRight multiplier:formRightMargin constant:0];
-    NSLayoutConstraint *typeInputHeightConstraint = [NSLayoutConstraint
-                                                      constraintWithItem:self.typeInput attribute:NSLayoutAttributeHeight
-                                                      relatedBy:NSLayoutRelationEqual toItem:self.servesInput attribute:
-                                                      NSLayoutAttributeHeight multiplier:1.0 constant:0.0];
-    
-    NSLayoutConstraint *descInputLeftConstraint = [NSLayoutConstraint
-                                                   constraintWithItem:self.descInput attribute:NSLayoutAttributeLeft
-                                                   relatedBy:NSLayoutRelationEqual toItem:self.descLabel attribute:
-                                                   NSLayoutAttributeLeft multiplier:1.0 constant:formLabelToFieldOffset];
-    NSLayoutConstraint *descInputTopConstraint = [NSLayoutConstraint
-                                                  constraintWithItem:self.descInput attribute:NSLayoutAttributeTop
-                                                  relatedBy:NSLayoutRelationEqual toItem:self.cuisineInput
-                                                  attribute:NSLayoutAttributeBottom multiplier:1.0 constant:formFieldToFieldOffsetPercent* [UIScreen mainScreen].bounds.size.height];
-    NSLayoutConstraint *descInputRightConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.descInput attribute:NSLayoutAttributeRight
-                                                    relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                    NSLayoutAttributeRight multiplier:formRightMargin constant:0];
-    NSLayoutConstraint *descInputHeightConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.descInput attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual toItem:self.servesInput attribute:
-                                                     NSLayoutAttributeHeight multiplier:3.0 constant:0.0];
-    
-    
-    NSLayoutConstraint *cuisineInputLeftConstraint = [NSLayoutConstraint
-                                                   constraintWithItem:self.cuisineInput attribute:NSLayoutAttributeLeft
-                                                   relatedBy:NSLayoutRelationEqual toItem:self.cuisineLabel attribute:
-                                                   NSLayoutAttributeLeft multiplier:1.0 constant:formLabelToFieldOffset];
-    NSLayoutConstraint *cuisineInputTopConstraint = [NSLayoutConstraint
-                                                  constraintWithItem:self.cuisineInput attribute:NSLayoutAttributeTop
-                                                  relatedBy:NSLayoutRelationEqual toItem:self.typeInput
-                                                  attribute:NSLayoutAttributeBottom multiplier:1.0 constant:formFieldToFieldOffsetPercent * [UIScreen mainScreen].bounds.size.height];
-    NSLayoutConstraint *cuisineInputRightConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.cuisineInput attribute:NSLayoutAttributeRight
-                                                    relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                    NSLayoutAttributeRight multiplier:formRightMargin constant:0];
-    NSLayoutConstraint *cuisineInputHeightConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.cuisineInput attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual toItem:self.servesInput attribute:
-                                                     NSLayoutAttributeHeight multiplier:1.0 constant:0.0];
-    
-    
-    NSLayoutConstraint *servesLabelLeftConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.servesLabel attribute:NSLayoutAttributeLeft
-                                                     relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                     NSLayoutAttributeLeftMargin multiplier:formLeftMargin constant:0];
-    
-    NSLayoutConstraint *servesLabelTopConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.servesLabel attribute:NSLayoutAttributeTop
-                                                    relatedBy:NSLayoutRelationEqual toItem:self.servesInput
-                                                    attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    
-    NSLayoutConstraint *titleLabelLeftConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.titleLabel attribute:NSLayoutAttributeLeft
-                                                    relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                    NSLayoutAttributeLeftMargin multiplier:formLeftMargin constant:0];
-    
-    NSLayoutConstraint *titleLabelTopConstraint = [NSLayoutConstraint
-                                                   constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop
-                                                   relatedBy:NSLayoutRelationEqual toItem:self.titleInput
-                                                   attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    NSLayoutConstraint *typeLabelLeftConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.typeLabel attribute:NSLayoutAttributeLeft
-                                                     relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                     NSLayoutAttributeLeftMargin multiplier:formLeftMargin constant:0];
-    NSLayoutConstraint *typeLabelTopConstraint = [NSLayoutConstraint
-                                                    constraintWithItem:self.typeLabel attribute:NSLayoutAttributeTop
-                                                    relatedBy:NSLayoutRelationEqual toItem:self.typeInput
-                                                    attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    
-    NSLayoutConstraint *cuisineLabelLeftConstraint = [NSLayoutConstraint
-                                                   constraintWithItem:self.cuisineLabel attribute:NSLayoutAttributeLeft
-                                                   relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                   NSLayoutAttributeLeftMargin multiplier:formLeftMargin constant:0];
-    NSLayoutConstraint *cuisineLabelTopConstraint = [NSLayoutConstraint
-                                                  constraintWithItem:self.cuisineLabel attribute:NSLayoutAttributeTop
-                                                  relatedBy:NSLayoutRelationEqual toItem:self.cuisineInput
-                                                  attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    
-    NSLayoutConstraint *descLabelLeftConstraint = [NSLayoutConstraint
-                                                      constraintWithItem:self.descLabel attribute:NSLayoutAttributeLeft
-                                                      relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                                      NSLayoutAttributeLeftMargin multiplier:formLeftMargin constant:0];
-    NSLayoutConstraint *descLabelTopConstraint = [NSLayoutConstraint
-                                                     constraintWithItem:self.descLabel attribute:NSLayoutAttributeTop
-                                                     relatedBy:NSLayoutRelationEqual toItem:self.descInput
-                                                     attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    
-    NSLayoutConstraint *BottomConstraint = [NSLayoutConstraint
-                                            constraintWithItem:self.descInput attribute:NSLayoutAttributeBottom
-                                            relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-                                            NSLayoutAttributeBottomMargin multiplier:formBottomMargin constant:0];
-    
-    
-    
-    //[superview addConstraints:@[progressViewTopConstraint,progressViewLeftConstraint,progressViewRightConstraint]];
-//    [superview addConstraints:@[ titleLabelTopConstraint, titleLabelLeftConstraint]];
-//    [superview addConstraints:@[ servesLabelTopConstraint, servesLabelLeftConstraint]];
-//    [superview addConstraints:@[ typeLabelLeftConstraint, typeLabelTopConstraint]];
-//    [superview addConstraints:@[ cuisineLabelLeftConstraint, cuisineLabelTopConstraint]];
-//    [superview addConstraints:@[ descLabelLeftConstraint, descLabelTopConstraint]];
-//
-//    [superview addConstraints:@[ imageViewTopConstraint, imageViewLeftConstraint,imageViewRightConstraint,imageViewHeightConstraint]];
-//    [superview addConstraints:@[ titleInputRightConstraint, titleInputLeftConstraint, titleInputTopConstraint,titleInputHeightConstraint]];
-//    [superview addConstraints:@[ servesInputLeftConstraint,servesInputRightConstraint,servesInputTopConstraint]];
-//    [superview addConstraints:@[ typeInputLeftConstraint, typeInputRightConstraint,typeInputTopConstraint,typeInputHeightConstraint]];
-//    [superview addConstraints:@[ cuisineInputLeftConstraint, cuisineInputRightConstraint,cuisineInputTopConstraint]];
-//    [superview addConstraints:@[ descInputLeftConstraint, descInputRightConstraint, descInputTopConstraint, descInputHeightConstraint,BottomConstraint]];
-    
-    
-
-    
-    
-    id views = @{@"progressView":self.progressIndicator,
-                 @"imageView": self.addImageBackgroundView,
-                 @"titleLabel":self.titleLabel,
-                 @"titleInput": self.titleInput,
-                 @"servesLabel":self.servesLabel,
-                 @"servesInput": self.servesInput,
-                 @"typeLabel":self.typeLabel,
-                 @"typeInput": self.typeInput,
-                 @"cuisineLabel":self.cuisineLabel,
-                 @"cuisineInput":self.cuisineInput,
-                 @"descLabel":self.descLabel,
-                 @"descInput":self.descInput
-                 }
-    ;
-    
-    id metrics = @{@"topmargin": @70, @"bottommargin":@200,@"fieldheight":@20,@"descheight":@80,@"leftMargin":@10,@"rightMargin":@10,@"progressViewHeight":@80};
-                 
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topmargin-[progressView(==progressViewHeight)]-fieldheight-[imageView(==50)]-fieldheight-[titleInput(==fieldheight)]-fieldheight-[servesInput(==fieldheight)]-fieldheight-[typeInput(==fieldheight)]-fieldheight-[cuisineInput(==fieldheight)]-fieldheight-[descInput(==descheight)]-bottommargin-|" options:0 metrics:metrics views:views]];
-
-    [superview addConstraints:@[titleLabelTopConstraint,typeLabelTopConstraint,servesLabelTopConstraint,descLabelTopConstraint]];
-    
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[progressView]|" options:0 metrics:metrics views:views]];
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[imageView]|" options:0 metrics:metrics views:views]];
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[titleLabel]-[titleInput]-rightMargin-|" options:0 metrics:metrics views:views]];
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[typeLabel]-[typeInput]-rightMargin-|" options:0 metrics:metrics views:views]];
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[servesLabel]-[servesInput]-rightMargin-|" options:0 metrics:metrics views:views]];
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[cuisineLabel]-[cuisineInput]-rightMargin-|" options:0 metrics:metrics views:views]];
-    [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[descLabel]-[descInput]-rightMargin-|" options:0 metrics:metrics views:views]];
     
 }
 
@@ -984,7 +672,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 
 #pragma mark - TextField/ Text View related methods
 
--(void)textViewDidBeginEditing:(UITextView *)textView {
+- (void)textViewDidBeginEditing:(UITextView *)textView {
     if([textView.text isEqualToString:descriptionPlaceholder])
         {
         textView.text = @"";
@@ -993,7 +681,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 
     [self textViewAnimationStart:textView];
 }
--(void)textViewDidEndEditing:(UITextView *)textView {
+- (void)textViewDidEndEditing:(UITextView *)textView {
     [self textViewAnimationEnd];
     if([textView.text isEqualToString:@""])
         {
@@ -1033,6 +721,10 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     
          [textField resignFirstResponder];
     }
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 - (void)textViewAnimationStart:(UITextField *)textField {
     CGRect textFieldRect =
@@ -1095,6 +787,51 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     [UIView commitAnimations];
 }
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)string {
+    
+    // Prevent crashing undo bug – see note below.
+    if(range.length + range.location > textView.text.length)
+    {
+        return NO;
+    }
+    
+    NSUInteger newLength = [textView.text length] + [string length] - range.length;
+    
+    switch (textView.tag)
+    {
+        case DescInputTag:
+            return newLength <= allowedNumberOfCharactersInTitle;
+            
+        default:
+            return newLength <= allowedNumberOfCharactersInCuisine;
+    }
+    
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    // Prevent crashing undo bug – see note below.
+    if(range.length + range.location > textField.text.length)
+    {
+        return NO;
+    }
+    
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    
+    switch (textField.tag)
+    {
+        case TitleInputTag:
+            return newLength <= allowedNumberOfCharactersInTitle;
+        
+        case CusineInputTag:
+            return newLength <= allowedNumberOfCharactersInCuisine;
+            
+        default:
+            return newLength <= allowedNumberOfCharactersInCuisine;
+    }
+}
+
+
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     // dismiss keyboard through `resignFirstResponder`
@@ -1105,3 +842,84 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
 }
 
 @end
+
+
+//- (UIView *) progressIndicator {
+//
+//    //NSLog(@"%f",self.addImageBackgroundView.frame.origin.y);
+//
+//    _progressIndicator = [[UIView alloc]init];
+//    _progressIndicator.backgroundColor = [UIColor yellowColor];
+//    _progressIndicator.translatesAutoresizingMaskIntoConstraints=NO;
+//
+//
+//    //_progressIndicator = [[UIView alloc]initWithFrame:CGRectMake(35, 45, 100, 40)];
+//
+//    UIButton *step1Button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    [step1Button setFrame:CGRectMake(_progressIndicator.frame.origin.x+16,_progressIndicator.frame.origin.y,serveButtonSize, serveButtonSize)];
+//    [step1Button setTitle:@"1" forState:UIControlStateNormal];
+//    [step1Button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    //[step1Button addTarget:self action:@selector(toggleItemType:) forControlEvents:UIControlEventTouchUpInside];
+//    step1Button.layer.borderWidth=1.0f;
+//    step1Button.layer.borderColor=[[UIColor blackColor] CGColor];
+//    step1Button.layer.backgroundColor = [[UIColor blackColor] CGColor];
+//    step1Button.layer.cornerRadius = 10;
+//    step1Button.contentEdgeInsets = UIEdgeInsetsMake(buttonInset, 0.0, 0.0, 0.0);
+////
+////    UILabel *step1Label = [[UILabel alloc]initWithFrame:CGRectMake(_progressIndicator.frame.origin.x, _progressIndicator.frame.origin.y+serveButtonSize, 60, 20)];
+////    [step1Label setText:@"Item Details"];
+////    [step1Label setFont:[UIFont systemFontOfSize:InputProgressIndicatorTextSize]];
+////    [step1Label setTextColor:[UIColor redColor]];
+////
+////
+////    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(_progressIndicator.frame.origin.x+16+serveButtonSize, _progressIndicator.frame.origin.y+serveButtonSize/2, 75, 1.0f)];
+////    lineView1.backgroundColor = [UIColor blackColor];
+////
+////
+////    UIButton *step2Button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+////    [step2Button setFrame:CGRectMake(_progressIndicator.frame.origin.x+16+serveButtonSize+lineView1.frame.size.width,_progressIndicator.frame.origin.y,serveButtonSize, serveButtonSize)];
+////    [step2Button setTitle:@"2" forState:UIControlStateNormal];
+////    [step2Button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+////    //[part1Button addTarget:self action:@selector(toggleItemType:) forControlEvents:UIControlEventTouchUpInside];
+////    step2Button.layer.borderWidth=1.0f;
+////    step2Button.layer.borderColor=[[UIColor blackColor] CGColor];
+////    step2Button.layer.backgroundColor = [[UIColor whiteColor] CGColor];
+////    step2Button.layer.cornerRadius = 10;
+////    step2Button.contentEdgeInsets = UIEdgeInsetsMake(buttonInset, 0.0, 0.0, 0.0);
+////
+////    UILabel *step2Label = [[UILabel alloc]initWithFrame:CGRectMake(step1Label.frame.origin.x+lineView1.frame.size.width+8, _progressIndicator.frame.origin.y+serveButtonSize, 80, 20)];
+////    [step2Label setText:@"Pickup Information"];
+////    [step2Label setFont:[UIFont systemFontOfSize:InputProgressIndicatorTextSize]];
+////
+////
+////    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(lineView1.frame.origin.x+lineView1.frame.size.width+serveButtonSize, _progressIndicator.frame.origin.y+serveButtonSize/2, 75, 1.0f)];
+////    lineView2.backgroundColor = [UIColor blackColor];
+////
+////    UIButton *step3Button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+////    [step3Button setFrame:CGRectMake(lineView2.frame.origin.x+lineView2.frame.size.width,_progressIndicator.frame.origin.y,serveButtonSize, serveButtonSize)];
+////    [step3Button setTitle:@"3" forState:UIControlStateNormal];
+////    [step3Button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+////    //[step3Button addTarget:self action:@selector(toggleItemType:) forControlEvents:UIControlEventTouchUpInside];
+////    step3Button.layer.borderWidth=1.0f;
+////    step3Button.layer.borderColor=[[UIColor blackColor] CGColor];
+////    step3Button.layer.backgroundColor = [[UIColor whiteColor] CGColor];
+////    step3Button.layer.cornerRadius = 10;
+////    step3Button.contentEdgeInsets = UIEdgeInsetsMake(buttonInset, 0.0, 0.0, 0.0);
+////
+////    UILabel *step3Label = [[UILabel alloc]initWithFrame:CGRectMake(step2Label.frame.origin.x+lineView2.frame.size.width+26, _progressIndicator.frame.origin.y+serveButtonSize, 80, 20)];
+////    [step3Label setText:@"Review/Submit"];
+////    [step3Label setFont:[UIFont systemFontOfSize:InputProgressIndicatorTextSize]];
+////
+////    [_progressIndicator addSubview:step1Button];
+////    [_progressIndicator addSubview:step1Label];
+////    [_progressIndicator addSubview:lineView1];
+////    [_progressIndicator addSubview:step2Button];
+////    [_progressIndicator addSubview:step2Label];
+////    [_progressIndicator addSubview:lineView2];
+////    [_progressIndicator addSubview:step3Button];
+////    [_progressIndicator addSubview:step3Label];
+//
+//
+//    return _progressIndicator;
+//}
+
