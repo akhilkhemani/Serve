@@ -14,6 +14,9 @@
 #import "PickImageViewController.h"
 #import "ReviewSubmitViewController.h"
 #import "NewInputViewController.h"
+#import "NewPickUpInfoViewController.h"
+
+#import <GoogleMaps/GoogleMaps.h>
 
 @interface AppDelegate ()
 
@@ -25,23 +28,30 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    ///google maps
+    [GMSServices provideAPIKey:@"AIzaSyDHdTN_gkC_RqUdUQs_CNiaLUK7VDLGbh4"];
+    
+    
+    
     PickUpInfoViewController *pickUpViewController = [[PickUpInfoViewController alloc]init];
     InputViewController *inputViewController = [[InputViewController alloc]init];
     MyListingsViewController *myListingsViewController = [[MyListingsViewController alloc]init];
     PickImageViewController *imageViewController =[[PickImageViewController alloc]init];
     ReviewSubmitViewController *reviewSubmitViewController = [[ReviewSubmitViewController alloc]init];
     NewInputViewController *newInputViewController = [[NewInputViewController alloc]init];
+    NewPickUpInfoViewController *newPickUpinfoViewController = [[NewPickUpInfoViewController alloc]init];
     
 
     //self.window.rootViewController = pickUpViewController;
     //self.window.rootViewController = inputViewController;
     //self.window.rootViewController = myListingsViewController;
     //self.window.rootViewController = imageViewController;
-    //self.window.rootViewController = reviewSubmitViewController;
-    self.window.rootViewController = newInputViewController;
+    self.window.rootViewController = reviewSubmitViewController;
+    //self.window.rootViewController = newInputViewController;
+    //self.window.rootViewController = newPickUpinfoViewController;
     
     navigationController = [[UINavigationController alloc]
-                            initWithRootViewController:newInputViewController];
+                            initWithRootViewController:reviewSubmitViewController];
     
     //navigationController.navigationBar.barTintColor = [UIColor blueColor];
 

@@ -7,13 +7,13 @@
 //
 
 #import "ReviewSubmitViewController.h"
+#import <GoogleMaps/GoogleMaps.h>
 
 const CGFloat reviewProgressButtonSize = 19.0f;
 const CGFloat reviewProgressButtonY = 365.0f;
 const CGFloat reviewProgressButtonX = 80.0f;
 const CGFloat reviewProgressButtonInset = -2.0f;
 const CGFloat reviewProgressIndicatorTextSize = 9.0f;
-
 
 //const CGFloat imageViewHeight = 160.0f;
 //const CGFloat formRightMargin = -15.0f;
@@ -54,207 +54,79 @@ const CGFloat reviewDeleteButtonTag = 1;
 
 @implementation ReviewSubmitViewController
 
+ GMSMapView *mapView_;
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    //[self setUpActionSheets];
+    
+    CLLocationCoordinate2D center;
+    center=[self getLocationFromAddressString:@"1235,wildwood ave,sunnyvale,california"];
+    double  latitude=center.latitude;
+    double  longitude=center.longitude;
+    [self displayMapwithLatitude:latitude Longitude:longitude];
+    //NSMutableArray *array = [NSMutableArray arrayWithObjects:@"12.981902,80.266333",@"12.982902,80.266363", nil];
+    
+    
+    [self setUpActionSheets];
     [self setUpNavigationController];
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    //[self.view addSubview:self.progressIndicator];
+    [self.view addSubview:mapView_];
 
-    
-  /*
-    //ADD PHOTO BIG BACKGROUND IMAGE
-    self.addImageBackgroundView = [[UIImageView alloc]init];
-    self.addImageBackgroundView.image = [UIImage imageNamed:@"food1-gray.jpg"];
-    //self.addImageBackgroundView.alpha = 0.6f;
-    self.addImageBackgroundView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.addImageBackgroundView.layer.borderWidth = 0.5f;
-    self.addImageBackgroundView.layer.cornerRadius = 10;
-    self.addImageBackgroundView.tag = 0;
-    [self.addImageBackgroundView setUserInteractionEnabled:YES];
-    UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:nil];
-    [singleTap setNumberOfTapsRequired:1];
-    [self.addImageBackgroundView addGestureRecognizer:singleTap];
-    self.addImageBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    
-    self.addPhotoActionSheetButton =  [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.addPhotoActionSheetButton setImage:[UIImage imageNamed:@"camera-2.png"] forState:UIControlStateNormal];
-    [self.addPhotoActionSheetButton addTarget:self action:@selector(showActionSheet:) forControlEvents:UIControlEventTouchUpInside];
-    //[self.addPhotoActionSheetButton setFrame:CGRectMake(160.0f, 196.0f, 55.0f, 55.0f)];
-//    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(-20, 55.0f, 90, 20)];
-//    [label setText:@"Add Photo"];
-//    [label setFont:[UIFont systemFontOfSize:11.0f]];
-//    label.textAlignment = NSTextAlignmentCenter;
-//    [label setTextColor:[UIColor whiteColor]];
-//    [label setBackgroundColor:[UIColor clearColor]];
-//    [self.addPhotoActionSheetButton addSubview:label];
-    self.addPhotoActionSheetButton.translatesAutoresizingMaskIntoConstraints = NO;
-    //addPhotoActionSheetButton.tag = addPhotoTag;
-    
-    
-    self.titleLabel  = [UILabel new];
-    [self.titleLabel setText:@"*Title:"];
-    [self.titleLabel setFont:[UIFont systemFontOfSize:14]];
-    self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-   
-    self.titleInput.tag = 1;
-    self.titleInput = [[UITextField alloc]init];
-    self.titleInput.delegate = self;
-    self.titleInput.textColor = [UIColor grayColor];
-    self.titleInput.font = [UIFont systemFontOfSize:10];
-    self.titleInput.textAlignment = NSTextAlignmentCenter;
-    [self.titleInput setReturnKeyType:UIReturnKeyDone];
-    self.titleInput.text = titlePlaceholder;
-    [self setTextFieldProperties:self.titleInput];
-    
-    
-    
-    
-    
-    
+}
 
+- (void)displayMapwithLatitude:(double)latitude Longitude:(double)longitude {
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:latitude
+                                                            longitude:longitude
+                                                                 zoom:17];
+    CGRect frame = CGRectMake(50, 200, 300, 300);
     
-    self.descriptionInput = [[UITextView alloc]init];
-    self.descriptionInput.backgroundColor = [UIColor yellowColor];
-    self.descriptionInput.delegate = self;
-    self.descriptionInput.textColor = [UIColor blackColor];
-    self.descriptionInput.textAlignment = NSTextAlignmentCenter;
-    self.descriptionInput.tag = 0;
-    [self.descriptionInput setScrollEnabled:YES];
-    self.descriptionInput.translatesAutoresizingMaskIntoConstraints = NO;
-    self.descriptionInput.layer.borderWidth = .5f;
-    self.descriptionInput.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.descriptionInput.layer.cornerRadius = 5;//changed from 15
-    self.descriptionInput.clipsToBounds = YES;
+    mapView_ = [GMSMapView mapWithFrame:frame camera:camera];
+    mapView_.myLocationEnabled = YES;
+    //self.view = mapView_;
     
-    [self.view addSubview:self.addImageBackgroundView];
-    [self.view addSubview:self.addPhotoActionSheetButton];
-    [self.view addSubview:self.titleLabel];
-    [self.view addSubview:self.titleInput];
-    [self.view addSubview:self.descriptionInput];
+    // Creates a marker in the center of the map.
+    GMSMarker *marker = [[GMSMarker alloc] init];
+    marker.position = CLLocationCoordinate2DMake(latitude+.001, longitude+.001);
+    marker.title = @"My";
+    marker.snippet = @"Location";
+    marker.map = mapView_;
+    marker.appearAnimation = kGMSMarkerAnimationPop;
     
-    [self setUpConstraints];
-   
-   */
+    ///
+    GMSMarker *marker2 = [[GMSMarker alloc] init];
+    marker2.position = CLLocationCoordinate2DMake(latitude, longitude);
+    marker2.title = @"Your Listing";
+    marker2.snippet = @"Location";
+    marker2.map = mapView_;
+    
+    marker2.appearAnimation = kGMSMarkerAnimationPop;
+    //marker2.icon = [UIImage imageNamed:@"trash.png"];
+
+}
+
+- (CLLocationCoordinate2D) getLocationFromAddressString: (NSString*) addressStr {
+    double latitude = 0, longitude = 0;
+    NSString *esc_addr =  [addressStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
+    NSString *result = [NSString stringWithContentsOfURL:[NSURL URLWithString:req] encoding:NSUTF8StringEncoding error:NULL];
+    if (result) {
+        NSScanner *scanner = [NSScanner scannerWithString:result];
+        if ([scanner scanUpToString:@"\"lat\" :" intoString:nil] && [scanner scanString:@"\"lat\" :" intoString:nil]) {
+            [scanner scanDouble:&latitude];
+            if ([scanner scanUpToString:@"\"lng\" :" intoString:nil] && [scanner scanString:@"\"lng\" :" intoString:nil]) {
+                [scanner scanDouble:&longitude];
+            }
+        }
     }
-
-
-
-
-//-(void)setUpConstraints
-//{
-//
-//    UIView *superview = self.view;
-//    
-//    
-//    NSLayoutConstraint *imageViewTopConstraint = [NSLayoutConstraint
-//                                                   constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeTop
-//                                                   relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-//                                                   NSLayoutAttributeTop multiplier:1.0 constant:formTopMargin];
-//    
-//    NSLayoutConstraint *imageViewLeftConstraint = [NSLayoutConstraint
-//                                                   constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeLeft
-//                                                   relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-//                                                   NSLayoutAttributeLeft multiplier:1.0 constant:5.0f];
-//    
-//    NSLayoutConstraint *imageViewRightConstraint = [NSLayoutConstraint
-//                                                  constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeRight
-//                                                  relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-//                                                  NSLayoutAttributeRight multiplier:1.0 constant:-5.0f];
-//    
-//    NSLayoutConstraint *imageViewHeightConstraint = [NSLayoutConstraint
-//                                                     constraintWithItem:self.addImageBackgroundView attribute:NSLayoutAttributeBottom
-//                                                     relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView attribute:
-//                                                     NSLayoutAttributeTop multiplier:1.0 constant:imageViewHeight];
-//    
-//    NSLayoutConstraint *addPhotoButtonCenterXConstraint = [NSLayoutConstraint
-//                                                     constraintWithItem:self.addPhotoActionSheetButton attribute:NSLayoutAttributeCenterX
-//                                                     relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView attribute:
-//                                                     NSLayoutAttributeCenterX multiplier:1.0 constant:0];
-//    
-//    NSLayoutConstraint *addPhotoButtonCenterYConstraint = [NSLayoutConstraint
-//                                                    constraintWithItem:self.addPhotoActionSheetButton attribute:NSLayoutAttributeCenterY
-//                                                    relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView attribute:
-//                                                    NSLayoutAttributeCenterY multiplier:1.0 constant:0.0f];
-//    
-//    
-//    //for titleLabel
-//    NSLayoutConstraint *titleLabelLeftConstraint = [NSLayoutConstraint
-//                                                    constraintWithItem:self.titleLabel attribute:NSLayoutAttributeLeft
-//                                                    relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-//                                                    NSLayoutAttributeLeft multiplier:1.0 constant:formLeftMargin];
-//    
-//    NSLayoutConstraint *titleLabelTopConstraint = [NSLayoutConstraint
-//                                                   constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop
-//                                                   relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView
-//                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0f];
-//    
-//    
-//    NSLayoutConstraint *titleInputLeftConstraint = [NSLayoutConstraint
-//                                                    constraintWithItem:self.titleInput attribute:NSLayoutAttributeLeft
-//                                                    relatedBy:NSLayoutRelationEqual toItem:self.titleLabel attribute:
-//                                                    NSLayoutAttributeRight multiplier:1.0 constant:formLabelToFieldOffset];
-//    
-//    NSLayoutConstraint *titleInputTopConstraint = [NSLayoutConstraint
-//                                                   constraintWithItem:self.titleInput attribute:NSLayoutAttributeTop
-//                                                   relatedBy:NSLayoutRelationEqual toItem:self.addImageBackgroundView
-//                                                   attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0f];
-//    
-//    NSLayoutConstraint *titleInputRightConstraint = [NSLayoutConstraint
-//                                                     constraintWithItem:self.titleInput attribute:NSLayoutAttributeRight
-//                                                     relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-//                                                     NSLayoutAttributeRight multiplier:1.0 constant:formRightMargin];
-//    
-//    
-//    NSLayoutConstraint *titleInputHeightConstraint = [NSLayoutConstraint
-//                                                     constraintWithItem:self.titleInput attribute:NSLayoutAttributeBottom
-//                                                     relatedBy:NSLayoutRelationEqual toItem:self.titleInput attribute:
-//                                                     NSLayoutAttributeTop multiplier:1.0 constant:formItemHeight];
-//    
-//    
-//    
-//    
-//    
-//    
-//    [superview addConstraints:@[addPhotoButtonCenterXConstraint,addPhotoButtonCenterYConstraint]];
-//    [superview addConstraints:@[ imageViewTopConstraint, imageViewLeftConstraint,
-//                                 imageViewRightConstraint,imageViewHeightConstraint]];
-//    
-//    [superview addConstraints:@[ titleLabelTopConstraint, titleLabelLeftConstraint]];
-//    [superview addConstraints:@[ titleInputRightConstraint, titleInputLeftConstraint,
-//                                 titleInputTopConstraint,titleInputHeightConstraint]];
-//
-//    
-//
-//    
-//    NSLayoutConstraint *descriptionInputTopConstraint = [NSLayoutConstraint
-//                                                         constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeTop
-//                                                         relatedBy:NSLayoutRelationEqual toItem:self.titleInput
-//                                                         attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5];
-//    
-//    NSLayoutConstraint *descriptionInputLeftConstraint = [NSLayoutConstraint
-//                                                          constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeLeft
-//                                                          relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-//                                                          NSLayoutAttributeLeft multiplier:1.0 constant:50.0f];
-//    
-//    NSLayoutConstraint *descriptionInputRightConstraint = [NSLayoutConstraint
-//                                                           constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeRight
-//                                                           relatedBy:NSLayoutRelationEqual toItem:superview attribute:
-//                                                           NSLayoutAttributeRight multiplier:1.0 constant:-50.0f];
-//    
-//    
-//    NSLayoutConstraint *descriptionInputHeightConstraint = [NSLayoutConstraint
-//                                                            constraintWithItem:self.descriptionInput attribute:NSLayoutAttributeBottom
-//                                                            relatedBy:NSLayoutRelationEqual toItem:self.descriptionInput
-//                                                            attribute:NSLayoutAttributeTop multiplier:1.0 constant:40];
-//    
-////    [superview addConstraints:@[descriptionInputLeftConstraint, descriptionInputRightConstraint,
-////                                descriptionInputTopConstraint, descriptionInputHeightConstraint]];
-//
-//    
-//}
+    CLLocationCoordinate2D center;
+    center.latitude=latitude;
+    center.longitude = longitude;
+    NSLog(@"View Controller get Location Logitute : %f",center.latitude);
+    NSLog(@"View Controller get Location Latitute : %f",center.longitude);
+    return center;
+    
+}
 
 - (UIView *)progressIndicator {
     
@@ -326,9 +198,7 @@ const CGFloat reviewDeleteButtonTag = 1;
     return _progressIndicator;
 }
 
-
--(void) setUpNavigationController
-{
+- (void) setUpNavigationController {
     [self.navigationItem setTitle:@"Review & Submit"];
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.toolbarHidden = NO;
@@ -379,28 +249,15 @@ const CGFloat reviewDeleteButtonTag = 1;
     
 }
 
-- (void)setTextFieldProperties:(UITextField *)inputView {
-    
-    inputView.translatesAutoresizingMaskIntoConstraints = NO;
-    inputView.layer.borderWidth = .5f;
-    inputView.layer.borderColor = [[UIColor grayColor] CGColor];
-    inputView.layer.cornerRadius = 5;//changed from 15
-    inputView.clipsToBounds = YES;
-}
-
-
-
 - (IBAction)backButtonPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)submitButtonPressed:(id)sender
-{
+- (IBAction)submitButtonPressed:(id)sender {
     NSLog(@"Trying to submit");
 }
 
-
-- (void) setUpActionSheets{
+- (void) setUpActionSheets {
     
     deleteButtonActionSheetItems = [[NSArray alloc] initWithObjects:@"Are you sure you want to delete the listing?",
                                     @"Discard Listing",@"Cancel", nil];
@@ -440,6 +297,7 @@ const CGFloat reviewDeleteButtonTag = 1;
         NSLog(@"Cancel pressed --> Cancel ActionSheet");
     }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

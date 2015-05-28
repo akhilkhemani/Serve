@@ -79,7 +79,7 @@ static NSString * const descriptionPlaceholder = @"Description Text (Optional)";
 - (void)setTextFieldProperties:(UITextView *)inputView {
     inputView.layer.borderWidth = 1.0f;
     inputView.layer.borderColor = [[UIColor grayColor] CGColor];
-    inputView.layer.cornerRadius = 15;
+    inputView.layer.cornerRadius = 5;
     inputView.clipsToBounds = YES;
 }
 - (void)autoFillTextFields {
@@ -307,7 +307,7 @@ static NSString * const descriptionPlaceholder = @"Description Text (Optional)";
     [self.pickUpPrefInput setFrame:CGRectMake(pickUpPrefLabel.frame.origin.x+65, pickUpPrefLabel.frame.origin.y, 150, 30)];
     //UIImage *image = [[UIImage imageNamed:@"add_serve.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.pickUpPrefInput addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    self.pickUpPrefInput.layer.cornerRadius = 10;
+    self.pickUpPrefInput.layer.cornerRadius = 5;
     //[self.pickUpPrefInput setImage:image forState:UIControlStateNormal];
     self.pickUpPrefInput.tintColor = [UIColor grayColor];
     
@@ -315,37 +315,37 @@ static NSString * const descriptionPlaceholder = @"Description Text (Optional)";
 
     self.addressinput1.layer.borderWidth = 1.0f;
     self.addressinput1.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.addressinput1.layer.cornerRadius = 15;
+    self.addressinput1.layer.cornerRadius = 5;
     self.addressinput1.clipsToBounds = YES;
     
     self.addressinput2.layer.borderWidth = 1.0f;
     self.addressinput2.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.addressinput2.layer.cornerRadius = 15;
+    self.addressinput2.layer.cornerRadius = 5;
     self.addressinput2.clipsToBounds = YES;
     
     self.cityInput.layer.borderWidth = 1.0f;
     self.cityInput.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.cityInput.layer.cornerRadius = 15;
+    self.cityInput.layer.cornerRadius = 5;
     self.cityInput.clipsToBounds = YES;
     
     self.stateInput.layer.borderWidth = 1.0f;
     self.stateInput.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.stateInput.layer.cornerRadius = 15;
+    self.stateInput.layer.cornerRadius = 5;
     self.stateInput.clipsToBounds = YES;
     
     self.zipCodeInput.layer.borderWidth = 1.0f;
     self.zipCodeInput.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.zipCodeInput.layer.cornerRadius = 15;
+    self.zipCodeInput.layer.cornerRadius = 5;
     self.zipCodeInput.clipsToBounds = YES;
     
     self.phoneInput.layer.borderWidth = 1.0f;
     self.phoneInput.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.phoneInput.layer.cornerRadius = 15;
+    self.phoneInput.layer.cornerRadius = 5;
     self.phoneInput.clipsToBounds = YES;
     
     self.pickUpPrefInput.layer.borderWidth = 1.0f;
     self.pickUpPrefInput.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.pickUpPrefInput.layer.cornerRadius = 15;
+    self.pickUpPrefInput.layer.cornerRadius = 5;
     self.pickUpPrefInput.clipsToBounds = YES;
     //self.pickUpPrefInput.editable = NO;
     
@@ -421,6 +421,10 @@ static NSString * const descriptionPlaceholder = @"Description Text (Optional)";
     //tell the navigation controller to push a new view into the stack
     [self.navigationController pushViewController:self.reviewSubmitViewController animated:YES];
 }
+
+
+
+
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
 

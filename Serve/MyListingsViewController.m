@@ -7,8 +7,10 @@
 //
 
 #import "MyListingsViewController.h"
+#import "NewInputViewController.h"
 #import "InputViewController.h"
 #import "AddListingCell.h"
+
 
 const CGFloat iconWidth = 25.0f;
 const CGFloat iconHeight = 25.0f;
@@ -19,7 +21,7 @@ const CGFloat iconHeight = 25.0f;
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)addNewListingButtonPressed:(id)sender;
 
-@property (strong, nonatomic) InputViewController *inputViewController;
+@property (strong, nonatomic) NewInputViewController *inputViewController;
 
 
 @end
@@ -193,9 +195,10 @@ const CGFloat iconHeight = 25.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if(self.inputViewController == nil){
-        InputViewController *secondView = [[InputViewController alloc] init];
+        NewInputViewController *secondView = [[NewInputViewController alloc] init];
         self.inputViewController = secondView;
     }
+    self.inputViewController.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController pushViewController:self.inputViewController animated:YES];
     
 }
